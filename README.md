@@ -14,7 +14,7 @@ make some changes (eg in other branches)
 
 git add filename
 
-git -m "Commit message"
+git commit -m "Commit message"
 
 git push -u origin yourbranch (eg. master)
 ```
