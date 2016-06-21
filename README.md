@@ -4,6 +4,8 @@ TDD Artikel vom Westphal http://www.frankwestphal.de/TestgetriebeneEntwicklung.h
 
 Github UI Client: https://desktop.github.com/
 
+Git Beginner Tutorial: https://www.youtube.com/watch?v=HVsySz-h9r4
+
 Getting started with Git CLI:
 
 ```
