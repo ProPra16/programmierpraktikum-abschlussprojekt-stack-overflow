@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<excercises>
+    <exercise name="Römische Zahlen">
+        <description>Konvertiert arabische in römische Zahlen.</description>
+        <classes>
+            <class name="RomanNumberConverter">
+                public class RomanNumberConverter {
+                }
+            </class>
+            <class name="RomanNumberConverter2">
+                public class RomanNumberConverter2 {
+                }
+            </class>
+        </classes>
+        <tests>
+            <test name="RomanNumberConverterTest">
+                import static org.junit.Assert.*;
+                import org.junit.Test;
+                public class RomanNumbersTest {
+                @Test
+                public void testSomething() {
+                }
+                }
+            </test>
+        </tests>
+        <config>
+            <babysteps value="True" time="2:30" />
+            <timetracking value="True" />
+        </config>
+    </exercise>
+    <exercise name="aufgabe 2">
+        <description>nr 2</description>
+        <classes>
+            <class name="methode2">
+                public class uuuuuuuuu {
+                }
+            </class>
+
+        </classes>
+        <tests>
+            <test name="methode2test">
+                import static org.junit.Assert.*;
+                import org.junit.Test;
+                public class methode2test {
+                @Test
+                public void testSomething() {
+                }
+                }
+            </test>
+        </tests>
+        <config>
+            <babysteps value="True" time="2:30" />
+            <timetracking value="True" />
+        </config>
+    </exercise>
+</excercises>
