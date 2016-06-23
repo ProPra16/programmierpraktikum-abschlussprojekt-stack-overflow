@@ -1,5 +1,7 @@
 # programmierpraktikum-abschlussprojekt-stack-overflow
 
+[![Build Status](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-stack-overflow.svg?branch=master)](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-stack-overflow)
+
 TDD Artikel vom Westphal http://www.frankwestphal.de/TestgetriebeneEntwicklung.html
 
 Github UI Client: https://desktop.github.com/
