@@ -12,6 +12,7 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Shonen on 24.06.2016.
@@ -75,12 +76,14 @@ public class XMLWriter {
                     babysteps.setAttributeNode(baby_value);
 
                     /* time not yet implemented */
-                    Element timetracking = doc.createElement("timetracking");
-                    config.appendChild(timetracking);
-                    Attr trackingvalue = doc.createAttribute("value");
-                    trackingvalue.setValue(String.valueOf(exc.get(i).isTimetracking()));
-                    timetracking.setAttributeNode(trackingvalue);
-
+                    Attr baby_time = doc.createAttribute("time");
+                    long timeinms = exc.get(i).getBabystepstime();
+                    long minutes = TimeUnit.MILLISECONDS.toMinutes(timeinms);
+                    long seconds = TimeUnit.MILLISECONDS.toSeconds(timeinms) -  TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeinms));
+                    System.out.println(minutes);
+                    System.out.println(seconds);
+                    baby_time.setValue(minutes + ":" + seconds);
+                    babysteps.setAttributeNode(baby_time);
                 }
             }
 

@@ -3,6 +3,7 @@ package XMLParser;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 
 import javax.xml.parsers.SAXParser;
@@ -68,14 +69,8 @@ public class XMLReader extends DefaultHandler {
                         String[] split = time.split(":");
                         int minutes = Integer.parseInt(split[0]);
                         int seconds = Integer.parseInt(split[1]);
-                        long finaltime = (minutes * 60 * 1000) + (seconds * 60 * 1000);
-                        //System.out.println(finaltime);
+                        long finaltime = TimeUnit.MINUTES.toMillis(minutes) + (seconds * 1000);
                         exc.setBabystepstime(finaltime);
-                    }
-                }
-                else if(qName.equals("timetracking")) {
-                    if(attributes.getValue("value").equals("True")) {
-                        exc.setTimetracking(true);
                     }
                 }
 
