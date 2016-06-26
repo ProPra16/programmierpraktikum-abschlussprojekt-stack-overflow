@@ -9,7 +9,7 @@ public class Excercise {
     private ArrayList<String> classContent;
     private ArrayList<String> testClassNames;
     private ArrayList<String> testClassContent;
-    private boolean babysteps,timetracking;
+    private boolean babysteps;
     private long babystepstime;
 
     public Excercise(ArrayList<String> classNames, ArrayList<String> classContent,ArrayList<String> testClassNames,ArrayList<String> testclassContent) {
@@ -37,13 +37,9 @@ public class Excercise {
     public boolean isBabysteps() {
         return babysteps;
     }
-    public boolean isTimetracking() { return timetracking; }
     public long getBabystepstime() { return babystepstime; }
     public void setBabysteps(boolean b) {
         this.babysteps = b;
-    }
-    public void setTimetracking(boolean b) {
-        this.timetracking = b;
     }
     public void setBabystepstime(long l) {
         this.babystepstime = l;

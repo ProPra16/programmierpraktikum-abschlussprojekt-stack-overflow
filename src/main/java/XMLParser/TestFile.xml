@@ -25,7 +25,6 @@
         </tests>
         <config>
             <babysteps value="True" time="2:30" />
-            <timetracking value="True" />
         </config>
     </exercise>
     <exercise name="aufgabe 2">
@@ -50,7 +49,6 @@
         </tests>
         <config>
             <babysteps value="True" time="2:30" />
-            <timetracking value="True" />
         </config>
     </exercise>
 </excercises>
