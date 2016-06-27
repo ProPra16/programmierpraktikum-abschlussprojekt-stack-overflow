@@ -1,3 +1,4 @@
+package GUI;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -32,7 +33,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	Label l6;
 	TextField t1;
 	int breite;
-	int höhe;
+	int hoehe;
 	int i; //i ist 1, wenn der Compile-Vorgang funktioniert hat
 
 
@@ -100,7 +101,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		s4.setOnAction(this);
 		
 		s5 = new Button();
-		s5.setText("Menü");
+		s5.setText("Menue");
 		s5.setTranslateX(5);
 		s5.setTranslateY(270);
 		s5.setOnAction(this);
@@ -127,13 +128,13 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	public void handle(ActionEvent event){
 		if(event.getSource()==s1){
 			breite = 400;
-			höhe = 300;
+			hoehe = 300;
 			sc2 = new Scene(create(1));
 			fenster.setScene(sc2);
 		}
 		if(event.getSource()==s2){
 			breite = 400;
-			höhe = 300;
+			hoehe = 300;
 			sc2 = new Scene(create(2));
 			fenster.setScene(sc2);
 		}
@@ -149,7 +150,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		if(event.getSource()==s6){
 			if(i == 1){
 				breite = 400;
-				höhe = 300;
+				hoehe = 300;
 				sc3 = new Scene(editorTest());
 				fenster.setScene(sc3);
 				}
@@ -160,7 +161,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		if(event.getSource()==s7){
 			if(i == 1){
 				breite = 400;
-				höhe = 300;
+				hoehe = 300;
 				sc4 = new Scene(editorCode());
 				fenster.setScene(sc4);
 			}
@@ -173,19 +174,19 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	private Parent create(int a) {
 		   
 		Pane root = new Pane();
-        root.setPrefSize(breite, höhe);       
+        root.setPrefSize(breite, hoehe);
 		root.getChildren().addAll(l3,l4,s4,s5,s6);
         if(a == 1){
         	//Reader für nicht-Babysteps Codes
         	//AuswahlBox-Klasse (im folgenden zum testen:)
-        	i = 1; //später dann Compile-Code
+        	i = 1; //spaeter dann Compile-Code
         	s6.setOnAction(this);
         	
         }
         if(a == 2){
         	//Reader für Babysteps Codes
         	//AuswahlBox-Klasse (im folgenden zum testen:)
-        	i = 1; //später dann Compile-Code
+        	i = 1; //spaeter dann Compile-Code
         	s6.setOnAction(this);
         }
        
@@ -196,18 +197,18 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	
 	private Parent editorTest() {
 		Pane root = new Pane();
-        root.setPrefSize(breite, höhe);       
+        root.setPrefSize(breite, hoehe);
 		root.getChildren().addAll(l3,l4,l5,t1,s4,s5,s7);
-		i = 1; //später dann Compile-Code
+		i = 1; //spaeter dann Compile-Code
 		s7.setOnAction(this);
 		return root;
 	}
 
 	private Parent editorCode() {
 		Pane root = new Pane();
-        root.setPrefSize(breite, höhe);       
+        root.setPrefSize(breite, hoehe);
 		root.getChildren().addAll(l3,l4,l6,t1,s4,s5,s6);
-		i = 1; //später dann Compile-Code
+		i = 1; //spaeter dann Compile-Code
 		s6.setOnAction(this);
 		return root;
 	}
