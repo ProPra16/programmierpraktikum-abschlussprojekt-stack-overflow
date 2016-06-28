@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 import org.junit.*;
+import CompileHandler.CompileHandler;
 
 public class CompileHandlerTest {
 	@Test
