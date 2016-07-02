@@ -77,11 +77,12 @@ public class XMLWriter {
 
                     /* time not yet implemented */
                     Attr baby_time = doc.createAttribute("time");
-                    long timeinms = exc.get(i).getBabystepstime();
-                    long minutes = TimeUnit.MILLISECONDS.toMinutes(timeinms);
-                    long seconds = TimeUnit.MILLISECONDS.toSeconds(timeinms) -  TimeUnit.MINUTES.toSeconds(TimeUnit.MILLISECONDS.toMinutes(timeinms));
-                    System.out.println(minutes);
-                    System.out.println(seconds);
+                    long timeins = exc.get(i).getBabystepstime();
+                    //System.out.println(timeins);
+                    long minutes = TimeUnit.SECONDS.toMinutes(timeins);
+                    long seconds = timeins -  TimeUnit.MINUTES.toSeconds(TimeUnit.SECONDS.toMinutes(timeins));
+                    //System.out.println(minutes);
+                    //System.out.println(seconds);
                     baby_time.setValue(minutes + ":" + seconds);
                     babysteps.setAttributeNode(baby_time);
                 }

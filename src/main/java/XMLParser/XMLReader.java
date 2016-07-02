@@ -63,13 +63,13 @@ public class XMLReader extends DefaultHandler {
                 }
                 else if(qName.equals("babysteps")) {
                     String isBabystep = attributes.getValue("value");
-                    if(isBabystep.equals("True")) {
+                    if(isBabystep.equals("true") || isBabystep.equals("True")) {
                         exc.setBabysteps(true);
                         String time = attributes.getValue("time");
                         String[] split = time.split(":");
                         int minutes = Integer.parseInt(split[0]);
                         int seconds = Integer.parseInt(split[1]);
-                        long finaltime = TimeUnit.MINUTES.toMillis(minutes) + (seconds * 1000);
+                        long finaltime = TimeUnit.MINUTES.toSeconds(minutes) + (seconds);
                         exc.setBabystepstime(finaltime);
                     }
                 }
