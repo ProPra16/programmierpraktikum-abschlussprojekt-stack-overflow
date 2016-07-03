@@ -1,4 +1,5 @@
-package CompileHandler;
+package PFD.PFD;
+
 import java.util.Collection;
 import java.util.Iterator;
 
@@ -15,7 +16,9 @@ public class CompileHandler {
 	private String myCode; //Der Code der zu testenden Klasse
 	private String testClass; //Der Name der Testklasse
 	private String testCode; //Der Code der Testklasse
+	
 	private boolean testSuccess = false; //Wird auf true gesetzt wenn alle Tests laufen. 
+	
 	private String savedCode; //Der Code, der in der zwischenablage gespeichert wird, später wichtig
 	
 	public CompileHandler(String className, String classCode, String testClassName, String testClassCode) {
@@ -29,6 +32,10 @@ public class CompileHandler {
 		//dient dazu nach Bearbeitung den Code einer Klasse upzudaten. Genaue Art und Weise der Handhabung zwischen Test und Hauptklasse unklar
 		if(newCode.contains("@Test")) testCode = newCode;
 		else myCode = newCode;
+	}
+	
+	public void updateSaves() {
+		
 	}
 	
 	public String[] executeCompiler() {
@@ -45,7 +52,10 @@ public class CompileHandler {
 			results[0] = handleErrors(cpResult, classToTest);
 			results[1] = handleErrors(cpResult, theTest);
 		}
-		else results[2] = handleTests(myCompileObject);
+		else if(testCode.contains("@Test")) {
+				results[2] = handleTests(myCompileObject);
+		}
+		else results[2] = "Please add a proper Test!";
 		
 		return results;
 	}
@@ -87,24 +97,19 @@ public class CompileHandler {
 		return compilerResults;
 	}
 	
-
+	public boolean testStatus() {
+		return testSuccess;
+	}
+	
 	public static void main(String[] args) {
 		String code = "public class HelloWorld { \n "
-				+ "public static int add(int , int y) { \n"
+				+ "public static int add(int x, int y) { \n"
 				+ "return x + y;\n"
 				+ "} \n"
 				+ "}";
 		String codeTest = "import static org.junit.Assert.*;\n"
 				+ "import org.junit.*;\n"
 				+ "public class addTest {\n"
-				+ "@Test\n"
-				+ "public void addEight() {\n"
-				+ "assertEquals(8, HelloWorld.add(-2, 10));\n"
-				+ "}\n"
-				+ "@Test\n"
-				+ "public void addSeven() {\n"
-				+ "assertEquals(7, HelloWorld.add(4, 4));\n"
-				+ "}\n"
 				+ "}";
 		
 		CompileHandler testHandler = new CompileHandler("HelloWorld", code, "addTest", codeTest);
