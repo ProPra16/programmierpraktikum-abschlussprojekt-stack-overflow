@@ -1,7 +1,7 @@
 import static org.junit.Assert.*;
 import org.junit.*;
 
-import PFD.PFD.CompileHandler;
+import CompileHandler.CompileHandler;
 
 public class CompileHandlerTest {
 	@Test
