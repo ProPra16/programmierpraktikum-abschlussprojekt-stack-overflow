@@ -37,6 +37,6 @@ public class TestsXMLReader {
     @Test
     public void getRightBabystepsTime() {
         long time = TimeUnit.MINUTES.toSeconds(2) +  30;
-        assertEquals(time,xmlr.getExcercises().get(1).getBabystepstime());
+        assertEquals(time,xmlr.getExcercises().get(0).getBabystepstime());
     }
 }
