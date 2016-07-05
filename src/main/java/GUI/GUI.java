@@ -4,7 +4,11 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -193,14 +197,14 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		root.getChildren().addAll(l3,l4,s4,s5,s6,table);
         if(a == 1){
 
-        	//Reader für nicht-Babysteps Codes
+        	//Reader fuer nicht-Babysteps Codes
         	//AuswahlBox-Klasse (im folgenden zum testen:)
         	i = 1; //spaeter dann Compile-Code
         	s6.setOnAction(this);
         	
         }
         if(a == 2){
-        	//Reader für Babysteps Codes
+        	//Reader fuer Babysteps Codes
         	//AuswahlBox-Klasse (im folgenden zum testen:)
         	i = 1; //spaeter dann Compile-Code
         	s6.setOnAction(this);
