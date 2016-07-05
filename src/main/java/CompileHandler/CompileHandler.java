@@ -16,32 +16,38 @@ public class CompileHandler {
 	private String myCode; //Der Code der zu testenden Klasse
 	private String testClass; //Der Name der Testklasse
 	private String testCode; //Der Code der Testklasse
-
-	private boolean testSuccess = false; //Wird auf true gesetzt wenn alle Tests laufen.
-
+	
+	private String acceptanceTestName; //Der Name des Akzeptanztests
+	private String acceptanceTest; //Der Code des Akzeptanztests
+	
+	private boolean testSuccess = false; //Wird auf true gesetzt wenn alle Tests laufen. 
+	private boolean acceptance = false; //Wird true, wenn der Akzeptanztest bestanden ist.
+	
 	private String savedCode; //Der Code, der in der zwischenablage gespeichert wird, später wichtig
-
-	public CompileHandler(String className, String classCode, String testClassName, String testClassCode) {
+	
+	public CompileHandler(String className, String classCode, String testClassName, String testClassCode, String acceptName, String acceptTest) {
 		myClass = className;
 		myCode = classCode;
 		testClass = testClassName;
 		testCode = testClassCode;
+		acceptanceTestName = acceptName;
+		acceptanceTest = acceptTest;
 	}
-
+	
 	public void updateCode(String newCode) {
 		//dient dazu nach Bearbeitung den Code einer Klasse upzudaten. Genaue Art und Weise der Handhabung zwischen Test und Hauptklasse unklar
 		myCode = newCode;
 	}
-
+	
 	public void updateTests(String newCode) {
 		testCode = newCode;
 	}
-
+	
 	public void updateSaves() {
 		//updated den bereits gespeicherten Code
 		savedCode = myCode;
 	}
-
+	
 	public String[] executeCompiler() {
 		//führt den Compiler aus. Unterscheidet zwischen Testklasse und Hauptklasse
 		CompilationUnit classToTest = new CompilationUnit(myClass, myCode, false);
@@ -49,9 +55,9 @@ public class CompileHandler {
 		JavaStringCompiler myCompileObject = CompilerFactory.getCompiler(classToTest, theTest);
 		myCompileObject.compileAndRunTests();
 		CompilerResult cpResult = myCompileObject.getCompilerResult();
-
+		
 		String[] results = {"", "", ""};
-
+		
 		if(cpResult.hasCompileErrors()) {
 			results[0] = handleErrors(cpResult, classToTest);
 			results[1] = handleErrors(cpResult, theTest);
@@ -60,14 +66,14 @@ public class CompileHandler {
 				results[2] = handleTests(myCompileObject);
 		}
 		else results[2] = "Please add a proper Test!";
-
+		
 		return results;
 	}
-
+	
 	private String handleTests(JavaStringCompiler myCompileObject) {
 		String testResults = "";
 		TestResult happyEndChecker = myCompileObject.getTestResult();
-
+		
 		if(happyEndChecker.getNumberOfFailedTests() == 0) {
 			testResults += "All tests succeeded!";
 			testSuccess = true;
@@ -80,10 +86,10 @@ public class CompileHandler {
 			Iterator<TestFailure> fail = fails.iterator();
 			while(fail.hasNext()) {
 				TestFailure found = fail.next();
-				testResults += "Class: " + found.getTestClassName() + "\n"
-				+ "Method: " + found.getMethodName() + "\n"
+				testResults += "Class: " + found.getTestClassName() + "\n" 
+				+ "Method: " + found.getMethodName() + "\n" 
 				+ "Message: " + found.getMessage();
-			}
+			}		
 		}
 		return testResults;
 	}
@@ -100,11 +106,32 @@ public class CompileHandler {
 		}
 		return compilerResults;
 	}
-
+	
 	public boolean testStatus() {
 		return testSuccess;
 	}
-
+	
+	public String[] acceptanceCheck() {
+		acceptance = false;
+		CompilationUnit classToTest = new CompilationUnit(myClass, myCode, false);
+		CompilationUnit aTest = new CompilationUnit(acceptanceTestName, acceptanceTest, true);
+		JavaStringCompiler myCompileObject = CompilerFactory.getCompiler(classToTest, aTest);
+		myCompileObject.compileAndRunTests();
+		CompilerResult cpResult = myCompileObject.getCompilerResult();
+		
+		String[] results = {"", ""};
+		
+		if(cpResult.hasCompileErrors()) {
+			results[0] = handleErrors(cpResult, aTest);
+		}
+		else if(testCode.contains("@Test")) {
+				if(testSuccess) acceptance = true;
+		}
+		else results[1] = "Please add a proper Acceptance Test!";
+		
+		return results;
+	}
+	
 	/*public static void main(String[] args) {
 		String code = "public class HelloWorld { \n "
 				+ "public static int add(int x, int y) { \n"
@@ -118,7 +145,7 @@ public class CompileHandler {
 				+ "assertEquals(8, HelloWorld.add(-2, 10));\n"
 				+ "}\n"
 				+ "}";
-
+		
 		CompileHandler testHandler = new CompileHandler("HelloWorld", code, "addTest", codeTest);
 		String[] test = testHandler.executeCompiler();
 		for(int i = 0; i < test.length; i++) {
