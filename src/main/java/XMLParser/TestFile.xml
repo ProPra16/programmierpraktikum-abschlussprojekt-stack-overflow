@@ -48,7 +48,7 @@
             </test>
         </tests>
         <config>
-            <babysteps value="True" time="2:30" />
+            <babysteps value="false" time="2:30" />
         </config>
     </exercise>
 </excercises>

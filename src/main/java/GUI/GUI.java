@@ -4,9 +4,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
@@ -31,10 +29,12 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	Label l4;
 	Label l5;
 	Label l6;
-	TextField t1;
+	TextArea t1;
 	int breite;
 	int hoehe;
 	int i; //i ist 1, wenn der Compile-Vorgang funktioniert hat
+	Controller ctrl;
+	TableView table;
 
 
 	
@@ -42,10 +42,15 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	public void start(Stage arg0) throws Exception {
 		fenster = arg0;
 		arg0.setTitle("TDDT");
-		
-		t1 = new TextField();
+		ctrl = new Controller();
+		table = new TableView();
+
+
+
+		t1 = new TextArea();
 		//Muss noch angepasst werden!
-		
+
+
 		l1 = new Label("TDD-Trainer");
 		l1.setTranslateX(5);
 		l1.setTranslateY(-160);
@@ -148,8 +153,13 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				sc3 = new Scene(editorTest());
 				fenster.setScene(sc3);
 				}
-			else{//Error code...
-				
+			else
+			{
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("");
+				alert.setHeaderText("How...?");
+				alert.setContentText("This should not happen...");
+				alert.showAndWait();
 			}
 		}
 		if(event.getSource()==s7){
@@ -159,18 +169,30 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				sc4 = new Scene(editorCode());
 				fenster.setScene(sc4);
 			}
-			else{//Error code...
-				}
+			else
+			{
+				Alert alert = new Alert(Alert.AlertType.ERROR);
+				alert.setTitle("");
+				alert.setHeaderText("How...?");
+				alert.setContentText("This should not happen...");
+				alert.showAndWait();
 			}
 		}
+	}
 
 
 	private Parent create(int a) {
-		   
+		ctrl.setupTable(table,a);
+		table.setPrefWidth(breite*0.75);
+		table.setPrefHeight(hoehe*0.6);
+		table.setLayoutX(breite*0.1);
+		table.setLayoutY(hoehe*0.1);
+
 		Pane root = new Pane();
         root.setPrefSize(breite, hoehe);
-		root.getChildren().addAll(l3,l4,s4,s5,s6);
+		root.getChildren().addAll(l3,l4,s4,s5,s6,table);
         if(a == 1){
+
         	//Reader für nicht-Babysteps Codes
         	//AuswahlBox-Klasse (im folgenden zum testen:)
         	i = 1; //spaeter dann Compile-Code
@@ -193,6 +215,12 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		Pane root = new Pane();
         root.setPrefSize(breite, hoehe);
 		root.getChildren().addAll(l3,l4,l5,t1,s4,s5,s7);
+		t1.setPrefWidth(breite*0.8);
+		t1.setPrefHeight(hoehe*0.6);
+		t1.setLayoutX(breite*0.1);
+		t1.setLayoutY(hoehe*0.1);
+		t1.setText("");
+		System.out.println("test writing stage");
 		i = 1; //spaeter dann Compile-Code
 		s7.setOnAction(this);
 		return root;
@@ -202,7 +230,9 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		Pane root = new Pane();
         root.setPrefSize(breite, hoehe);
 		root.getChildren().addAll(l3,l4,l6,t1,s4,s5,s6);
+		t1.setText("");
 		i = 1; //spaeter dann Compile-Code
+		System.out.println("code writing stage");
 		s6.setOnAction(this);
 		return root;
 	}
