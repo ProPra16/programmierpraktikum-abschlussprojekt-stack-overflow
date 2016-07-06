@@ -25,6 +25,12 @@ public class CompileHandler {
 	
 	private String savedCode; //Der Code, der in der zwischenablage gespeichert wird, später wichtig
 	
+	public CompileHandler(String className, String classCode, String testClassName, String testClassCode) {
+		myClass = className;
+		myCode = classCode;
+		testClass = testClassName;
+		testCode = testClassCode;
+	}
 	public CompileHandler(String className, String classCode, String testClassName, String testClassCode, String acceptName, String acceptTest) {
 		myClass = className;
 		myCode = classCode;
@@ -50,6 +56,7 @@ public class CompileHandler {
 	
 	public String[] executeCompiler() {
 		//führt den Compiler aus. Unterscheidet zwischen Testklasse und Hauptklasse
+		testSuccess = false;
 		CompilationUnit classToTest = new CompilationUnit(myClass, myCode, false);
 		CompilationUnit theTest = new CompilationUnit(testClass, testCode, true);
 		JavaStringCompiler myCompileObject = CompilerFactory.getCompiler(classToTest, theTest);
@@ -141,6 +148,7 @@ public class CompileHandler {
 		String codeTest = "import static org.junit.Assert.*;\n"
 				+ "import org.junit.*;\n"
 				+ "public class addTest {\n"
+				+ "@Test\n"
 				+ "public void addEight() {\n"
 				+ "assertEquals(8, HelloWorld.add(-2, 10));\n"
 				+ "}\n"
@@ -151,5 +159,6 @@ public class CompileHandler {
 		for(int i = 0; i < test.length; i++) {
 			if(!test[i].equals("")) System.out.println(test[i]);
 		}
+		System.out.println(testHandler.testStatus());
 	}*/
 }
