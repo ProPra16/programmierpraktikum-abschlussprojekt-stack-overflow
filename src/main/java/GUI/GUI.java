@@ -43,6 +43,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	Label lbTestb;
 	TextArea txtTest;
 	TextArea txtCode;
+	TextArea txtCompileMsg;
 	int breite;
 	int hoehe;
 	int status; //status ist 1, wenn der Compile-Vorgang funktioniert hat
@@ -62,6 +63,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 
 		txtTest = new TextArea();
 		txtCode = new TextArea();
+		txtCompileMsg = new TextArea();
 		//Muss noch angepasst werden!
 
 
@@ -75,7 +77,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		lbCredits1.setTranslateY(160);
 		
 		lbCredits2 = new Label("*Made by: Marc Hilgenberg,Leonard Hack,Kelly Williams,Benno Bongaertz*");
-		lbCredits2.setTranslateX(600);
+		lbCredits2.setTranslateX(500);
 		lbCredits2.setTranslateY(580);
 		
 		lbList = new Label("1.Choose Exercise");
@@ -146,41 +148,41 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		
 		btnQuitxtCode = new Button();
 		btnQuitxtCode.setText("Quit");
-		btnQuitxtCode.setTranslateX(10);
-		btnQuitxtCode.setTranslateY(510);
+		btnQuitxtCode.setTranslateX(20);
+		btnQuitxtCode.setTranslateY(535);
 		btnQuitxtCode.setOnAction(this);
 		btnQuitxtCode.setId("button");
 		
 		btnMenu = new Button();
 		btnMenu.setText("Menu");
-		btnMenu.setTranslateX(375);
-		btnMenu.setTranslateY(510);
+		btnMenu.setLayoutX(20);
+		btnMenu.setLayoutY(40);
 		btnMenu.setOnAction(this);
 		btnMenu.setId("button");
 		
 		btnNextxtTest = new Button();
 		btnNextxtTest.setText("Next");
-		btnNextxtTest.setTranslateX(600);
-		btnNextxtTest.setTranslateY(510);
+		btnNextxtTest.setTranslateX(905);
+		btnNextxtTest.setTranslateY(535);
 		btnNextxtTest.setId("button");
 		
 		btnNextxtCode = new Button();
 		btnNextxtCode.setText("Next");
-		btnNextxtCode.setTranslateX(600);
-		btnNextxtCode.setTranslateY(510);
+		btnNextxtCode.setTranslateX(905);
+		btnNextxtCode.setTranslateY(535);
 		btnNextxtCode.setId("button");
 		
 		btnTimer = new Button();
 		btnTimer.setText("*Timer*");
-		btnTimer.setTranslateX(500);
-		btnTimer.setTranslateY(510);
+		btnTimer.setTranslateX(480);
+		btnTimer.setTranslateY(535);
 
 
 		
 		StackPane rahmen = new StackPane();
 		rahmen.getChildren().addAll(lbTitel,lbCredits1,btnNormal,btnBabystep,btnQuitxtTest);
 		scMenu = new Scene(rahmen, 200, 400);
-		scMenu.getStylesheets().add("GUI/stylesheetscMenu.css");
+		scMenu.getStylesheets().add("GUI/stylesheetSC1.css");
 		arg0.setScene(scMenu);
 		arg0.show();
 		
@@ -283,19 +285,26 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	private Parent editorTest() {
 		Pane root = new Pane();
         root.setPrefSize(breite, hoehe);
-		root.getChildren().addAll(lbRepeat,lbCredits2,lbList,lbTestb,lbCode,txtTest,txtCode,btnQuitxtCode,btnMenu,btnNextxtCode,btnTimer);
-		txtTest.setPrefWidth(breite*0.35);
-		txtTest.setPrefHeight(hoehe*0.6);
-		txtTest.setLayoutX(breite*0.1);
-		txtTest.setLayoutY(hoehe*0.2);
+		root.getChildren().addAll(lbRepeat,lbCredits2,lbList,lbTestb,lbCode,txtTest,txtCode,txtCompileMsg,btnQuitxtCode,btnMenu,btnNextxtCode,btnTimer);
+		txtTest.setPrefWidth(breite*0.45);
+		txtTest.setPrefHeight(300);
+		txtTest.setLayoutX(20);
+		txtTest.setLayoutY(hoehe*0.19);
 		txtTest.setText("Test");
-		txtCode.setPrefWidth(breite*0.35);
-		txtCode.setPrefHeight(hoehe*0.6);
-		txtCode.setLayoutX(breite*0.6);
-		txtCode.setLayoutY(hoehe*0.2);
+		txtCode.setPrefWidth(breite*0.43);
+		txtCode.setPrefHeight(300);
+		txtCode.setLayoutX(breite*0.55);
+		txtCode.setLayoutY(hoehe*0.19);
 		txtCode.setText("Code");
+		txtCompileMsg.setLayoutX(20);
+		txtCompileMsg.setLayoutY(427);
+		txtCompileMsg.setPrefWidth(960);
+		txtCompileMsg.setPrefHeight(100);
+		txtCompileMsg.setEditable(false);
+		txtCompileMsg.setText("error code hier...");
 		txtCode.setEditable(false);
 		txtTest.setEditable(true);
+
 		System.out.println("test writing stage");
 		status = 1; //spaeter dann Compile-Code
 		btnNextxtCode.setOnAction(this);
@@ -305,19 +314,26 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	private Parent editorCode() {
 		Pane root = new Pane();
         root.setPrefSize(breite, hoehe);
-		root.getChildren().addAll(lbRepeat,lbCredits2,lbList,lbTest,lbCodeb,txtCode,txtTest,btnQuitxtCode,btnMenu,btnNextxtTest,btnTimer);
-		txtTest.setPrefWidth(breite*0.35);
-		txtTest.setPrefHeight(hoehe*0.6);
-		txtTest.setLayoutX(breite*0.6);
-		txtTest.setLayoutY(hoehe*0.2);
+		root.getChildren().addAll(lbRepeat,lbCredits2,lbList,lbTest,lbCodeb,txtCode,txtTest,txtCompileMsg,btnQuitxtCode,btnMenu,btnNextxtTest,btnTimer);
+		txtTest.setPrefWidth(breite*0.45);
+		txtTest.setPrefHeight(300);
+		txtTest.setLayoutX(20);
+		txtTest.setLayoutY(hoehe*0.19);
 		txtTest.setText("Test");
+		txtCode.setPrefWidth(breite*0.43);
+		txtCode.setPrefHeight(300);
+		txtCode.setLayoutX(breite*0.55);
+		txtCode.setLayoutY(hoehe*0.19);
+		txtCode.setText("Code");
+		txtCompileMsg.setLayoutX(20);
+		txtCompileMsg.setLayoutY(427);
+		txtCompileMsg.setPrefWidth(960);
+		txtCompileMsg.setPrefHeight(100);
+		txtCompileMsg.setEditable(false);
+		txtCompileMsg.setText("error code hier...");
 		txtTest.setEditable(false);
 		txtCode.setEditable(true);
-		txtCode.setPrefWidth(breite*0.35);
-		txtCode.setPrefHeight(hoehe*0.6);
-		txtCode.setLayoutX(breite*0.1);
-		txtCode.setLayoutY(hoehe*0.2);
-		txtCode.setText("Code");
+
 		status = 1; //spaeter dann Compile-Code
 		System.out.println("code writing stage");
 		btnNextxtTest.setOnAction(this);
