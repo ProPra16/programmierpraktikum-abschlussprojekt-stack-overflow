@@ -4,7 +4,6 @@ public class CountdownTimer {
 
 	long startTime = 0;
 	long displayableSeconds = 0;
-	long displayableMinutes = 0;
 
 	public void startCountdownTimer() {
 
@@ -18,7 +17,6 @@ public class CountdownTimer {
 		long elapsedSeconds = elapsedMillis/1000;
 		long elapsedMinutes = elapsedSeconds/60;
 		displayableSeconds = elapsedSeconds%60;
-		displayableMinutes = elapsedMinutes%60;
 
 	}
 
@@ -30,7 +28,7 @@ public class CountdownTimer {
 
 	public long getDisplayableMinutes() {
 
-		return displayableMinutes;
+		return elapsedMinutes;
 
 	}
 
