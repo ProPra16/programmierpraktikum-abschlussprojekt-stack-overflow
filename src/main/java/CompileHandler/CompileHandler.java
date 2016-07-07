@@ -31,6 +31,7 @@ public class CompileHandler {
 		testClass = testClassName;
 		testCode = testClassCode;
 	}
+	//Sonderkonstruktor für den Fall, dass ein Akzeptanztest eingebaut wurde~
 	public CompileHandler(String className, String classCode, String testClassName, String testClassCode, String acceptName, String acceptTest) {
 		myClass = className;
 		myCode = classCode;
@@ -58,21 +59,27 @@ public class CompileHandler {
 		//führt den Compiler aus. Unterscheidet zwischen Testklasse und Hauptklasse
 		testSuccess = false;
 		CompilationUnit classToTest = new CompilationUnit(myClass, myCode, false);
-		CompilationUnit theTest = new CompilationUnit(testClass, testCode, true);
+		CompilationUnit theTest = new CompilationUnit(testClass, testCode, true);		
 		JavaStringCompiler myCompileObject = CompilerFactory.getCompiler(classToTest, theTest);
 		myCompileObject.compileAndRunTests();
 		CompilerResult cpResult = myCompileObject.getCompilerResult();
 		
-		String[] results = {"", "", ""};
+		String[] results = {"", "", "", ""};
 		
 		if(cpResult.hasCompileErrors()) {
 			results[0] = handleErrors(cpResult, classToTest);
 			results[1] = handleErrors(cpResult, theTest);
+			
 		}
 		else if(testCode.contains("@Test")) {
 				results[2] = handleTests(myCompileObject);
 		}
 		else results[2] = "Please add a proper Test!";
+		
+		String acceptanceResults = "";
+		if(acceptanceTest != null) acceptanceResults = acceptanceCheck();
+		
+		results[3] = acceptanceResults;
 		
 		return results;
 	}
@@ -82,11 +89,36 @@ public class CompileHandler {
 		TestResult happyEndChecker = myCompileObject.getTestResult();
 		
 		if(happyEndChecker.getNumberOfFailedTests() == 0) {
-			testResults += "All tests succeeded!";
+			testResults += "All tests succeeded!\n";
 			testSuccess = true;
 		}
 		else {
 			testSuccess = false;
+			testResults += "Successful Tests: " + happyEndChecker.getNumberOfSuccessfulTests() + "\n";
+			testResults += "Failed Tests: " + happyEndChecker.getNumberOfFailedTests() + "\n\n";
+			Collection<TestFailure> fails = happyEndChecker.getTestFailures();
+			Iterator<TestFailure> fail = fails.iterator();
+			while(fail.hasNext()) {
+				TestFailure found = fail.next();
+				testResults += "Class: " + found.getTestClassName() + "\n" 
+				+ "Method: " + found.getMethodName() + "\n" 
+				+ "Message: " + found.getMessage();
+			}		
+		}
+		return testResults;
+	}
+	
+	private String handleAcceptanceTests(JavaStringCompiler myCompileObject) {
+		String testResults = "";
+		TestResult happyEndChecker = myCompileObject.getTestResult();
+		
+		if(happyEndChecker.getNumberOfFailedTests() == 0) {
+			testResults += "All tests succeeded!";
+			acceptance = true;
+		}
+		else {
+			acceptance = false;
+			testResults += "Acceptance Test Failed\n";
 			testResults += "Successful Tests: " + happyEndChecker.getNumberOfSuccessfulTests() + "\n";
 			testResults += "Failed Tests: " + happyEndChecker.getNumberOfFailedTests() + "\n\n";
 			Collection<TestFailure> fails = happyEndChecker.getTestFailures();
@@ -118,7 +150,11 @@ public class CompileHandler {
 		return testSuccess;
 	}
 	
-	public String[] acceptanceCheck() {
+	public boolean acceptanceStatus() {
+		return acceptance;
+	}
+	
+	public String acceptanceCheck() {
 		acceptance = false;
 		CompilationUnit classToTest = new CompilationUnit(myClass, myCode, false);
 		CompilationUnit aTest = new CompilationUnit(acceptanceTestName, acceptanceTest, true);
@@ -126,17 +162,19 @@ public class CompileHandler {
 		myCompileObject.compileAndRunTests();
 		CompilerResult cpResult = myCompileObject.getCompilerResult();
 		
-		String[] results = {"", ""};
+		String result = "";
 		
 		if(cpResult.hasCompileErrors()) {
-			results[0] = handleErrors(cpResult, aTest);
+			result = handleErrors(cpResult, aTest);
 		}
 		else if(testCode.contains("@Test")) {
-				if(testSuccess) acceptance = true;
+			result = handleAcceptanceTests(myCompileObject);
+			if(testSuccess && acceptance) acceptance = true;
+			else acceptance = false;
 		}
-		else results[1] = "Please add a proper Acceptance Test!";
+		else result = "Please add a proper Acceptance Test!";
 		
-		return results;
+		return result;
 	}
 	
 	/*public static void main(String[] args) {
@@ -153,12 +191,21 @@ public class CompileHandler {
 				+ "assertEquals(8, HelloWorld.add(-2, 10));\n"
 				+ "}\n"
 				+ "}";
+		String acceptor = "import static org.junit.Assert.*;\n"
+				+ "import org.junit.*;\n"
+				+ "public class Acceptance {\n"
+				+ "@Test\n"
+				+ "public void addEight() {\n"
+				+ "assertEquals(9, HelloWorld.add(-2, 10));\n"
+				+ "}\n"
+				+ "}";
 		
-		CompileHandler testHandler = new CompileHandler("HelloWorld", code, "addTest", codeTest);
+		CompileHandler testHandler = new CompileHandler("HelloWorld", code, "addTest", codeTest, "Acceptance", acceptor);
 		String[] test = testHandler.executeCompiler();
 		for(int i = 0; i < test.length; i++) {
 			if(!test[i].equals("")) System.out.println(test[i]);
 		}
 		System.out.println(testHandler.testStatus());
+		System.out.println(testHandler.acceptanceStatus());
 	}*/
 }
