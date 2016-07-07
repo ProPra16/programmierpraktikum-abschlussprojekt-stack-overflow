@@ -1,4 +1,3 @@
-
 import static org.junit.Assert.*;
 import org.junit.*;
 
@@ -195,5 +194,92 @@ public class CompileHandlerTest {
 				+ "}");
 		test = testHandler.executeCompiler();
 		assertEquals(false, testHandler.testStatus());
+	}
+	
+	@Test
+	public void acceptanceEverythingGood() {
+		String code = "public class HelloWorld { \n "
+				+ "public static int add(int x, int y) { \n"
+				+ "return x + y;\n"
+				+ "} \n"
+				+ "}";
+		String codeTest = "import static org.junit.Assert.*;\n"
+				+ "import org.junit.*;\n"
+				+ "public class addTest {\n"
+				+ "@Test\n"
+				+ "public void addEight() {\n"
+				+ "assertEquals(8, HelloWorld.add(-2, 10));\n"
+				+ "}\n"
+				+ "}";
+		String acceptor = "import static org.junit.Assert.*;\n"
+				+ "import org.junit.*;\n"
+				+ "public class accTest {\n"
+				+ "@Test\n"
+				+ "public void addEight() {\n"
+				+ "assertEquals(8, HelloWorld.add(-2, 10));\n"
+				+ "}\n"
+				+ "}";
+		CompileHandler testHandler = new CompileHandler("HelloWorld", code, "addTest", codeTest, "accTest", acceptor);
+		String[] test = testHandler.executeCompiler();
+		test = testHandler.executeCompiler();
+		assertEquals(true, testHandler.acceptanceStatus());
+	}
+	
+	@Test
+	public void acceptanceCodeBroken() {
+		String code = "public class HelloWorld { \n "
+				+ "public static int add(int x, int y) { \n"
+				+ "return x + y;\n"
+				+ "} \n"
+				+ "}";
+		String codeTest = "import static org.junit.Assert.*;\n"
+				+ "import org.junit.*;\n"
+				+ "public class addTest {\n"
+				+ "@Test\n"
+				+ "public void addEight() {\n"
+				+ "assertEquals(8, HelloWorld.add(-2, 10));\n"
+				+ "}\n"
+				+ "}";
+		String acceptor = "import static org.junit.Assert.*;\n"
+				+ "import org.junit.*;\n"
+				+ "public class accTest {\n"
+				+ "@Test\n"
+				+ "public void addEight) {\n"
+				+ "assertEquals(8, HelloWorld.add(-2, 10));\n"
+				+ "}\n"
+				+ "}";
+		CompileHandler testHandler = new CompileHandler("HelloWorld", code, "addTest", codeTest, "accTest", acceptor);
+		String[] test = testHandler.executeCompiler();
+		test = testHandler.executeCompiler();
+		assertEquals(false, testHandler.acceptanceStatus());
+	}
+	
+	@Test
+	public void acceptanceTestFailure() {
+		String code = "public class HelloWorld { \n "
+				+ "public static int add(int x, int y) { \n"
+				+ "return x + y;\n"
+				+ "} \n"
+				+ "}";
+		String codeTest = "import static org.junit.Assert.*;\n"
+				+ "import org.junit.*;\n"
+				+ "public class addTest {\n"
+				+ "@Test\n"
+				+ "public void addEight() {\n"
+				+ "assertEquals(8, HelloWorld.add(-2, 10));\n"
+				+ "}\n"
+				+ "}";
+		String acceptor = "import static org.junit.Assert.*;\n"
+				+ "import org.junit.*;\n"
+				+ "public class accTest {\n"
+				+ "@Test\n"
+				+ "public void addEight() {\n"
+				+ "assertEquals(9, HelloWorld.add(-2, 10));\n"
+				+ "}\n"
+				+ "}";
+		CompileHandler testHandler = new CompileHandler("HelloWorld", code, "addTest", codeTest, "accTest", acceptor);
+		String[] test = testHandler.executeCompiler();
+		test = testHandler.executeCompiler();
+		assertEquals(false, testHandler.acceptanceStatus());
 	}
 }
