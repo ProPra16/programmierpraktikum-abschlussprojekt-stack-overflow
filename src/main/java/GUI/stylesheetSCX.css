@@ -18,3 +18,13 @@
     -fx-font-size: 12px;
     -fx-padding: 10 20 10 20;
 }
+
+#button_red {
+    -fx-background-color: 
+        #DF3A01;
+}
+
+#button_green {
+    -fx-background-color: 
+        #74DF00;
+}
