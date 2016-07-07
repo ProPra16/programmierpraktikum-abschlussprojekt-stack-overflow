@@ -2,17 +2,17 @@ package CountdownTimer;
 
 public class CountdownTimer {
 
-	long startTime = null;
-	long displayableSeconds = null;
-	long displayableMinutes = null;
+	long startTime = 0;
+	long displayableSeconds = 0;
+	long displayableMinutes = 0;
 
-	public static void startCountdownTimer() {
+	public void startCountdownTimer() {
 
 		startTime = System.currentTimeMillis();
 
 	}
 
-	public static void calculateElapsedTime() {
+	public void calculateElapsedTime() {
 
 		long elapsedMillis = System.currentTimeMillis();
 		long elapsedSeconds = elapsedTime/1000;
@@ -22,13 +22,13 @@ public class CountdownTimer {
 
 	}
 
-	public static long getDisplayableSeconds() {
+	public long getDisplayableSeconds() {
 
 		return displayableSeconds;
 
 	}
 
-	public static long getDisplayableMinutes() {
+	public long getDisplayableMinutes() {
 
 		return displayableMinutes;
 
