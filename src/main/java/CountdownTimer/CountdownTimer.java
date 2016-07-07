@@ -15,7 +15,7 @@ public class CountdownTimer {
 	public void calculateElapsedTime() {
 
 		long elapsedMillis = System.currentTimeMillis();
-		long elapsedSeconds = elapsedTime/1000;
+		long elapsedSeconds = elapsedMillis/1000;
 		long elapsedMinutes = elapsedSeconds/60;
 		displayableSeconds = elapsedSeconds%60;
 		displayableMinutes = elapsedMinutes%60;
