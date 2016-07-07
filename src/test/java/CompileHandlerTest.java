@@ -26,7 +26,7 @@ public class CompileHandlerTest {
 		
 		CompileHandler testHandler = new CompileHandler("HelloWorld", code, "addTest", codeTest);
 		String[] test = testHandler.executeCompiler();
-		String[] comparer = {"", "", "All tests succeeded!"};
+		String[] comparer = {"", "", "All tests succeeded!\n"};
 		assertEquals(comparer[0], test[0]);
 		assertEquals(comparer[1], test[1]);
 		assertEquals(comparer[2], test[2]);
@@ -143,7 +143,7 @@ public class CompileHandlerTest {
 				+ "}";
 		testHandler.updateCode(newCode);
 		String[] test = testHandler.executeCompiler();
-		String[] comparer = {"", "", "All tests succeeded!"};
+		String[] comparer = {"", "", "All tests succeeded!\n"};
 		assertEquals(comparer[0], test[0]);
 		assertEquals(comparer[1], test[1]);
 		assertEquals(comparer[2], test[2]);

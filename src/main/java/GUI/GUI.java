@@ -180,7 +180,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		StackPane rahmen = new StackPane();
 		rahmen.getChildren().addAll(l1,l2,s1,s2,s3);
 		sc1 = new Scene(rahmen, 200, 400);
-		sc1.getStylesheets().add("stylesheetSC1.css");
+		sc1.getStylesheets().add("GUI/stylesheetSC1.css");
 		arg0.setScene(sc1);
 		arg0.show();
 		
@@ -191,14 +191,14 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 			breite = 1000;
 			hoehe = 600;
 			sc2 = new Scene(create(1));
-			sc2.getStylesheets().add("stylesheetSCX.css");
+			sc2.getStylesheets().add("GUI/stylesheetSCX.css");
 			fenster.setScene(sc2);
 		}
 		if(event.getSource()==s2){
 			breite = 1000;
 			hoehe = 600;
 			sc2 = new Scene(create(2));
-			sc2.getStylesheets().add("stylesheetSCX.css");
+			sc2.getStylesheets().add("GUI/stylesheetSCX.css");
 			fenster.setScene(sc2);
 		}
 		if(event.getSource()==s3){
@@ -216,7 +216,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				breite = 1000;
 				hoehe = 600;
 				sc3 = new Scene(editorTest());
-				sc3.getStylesheets().add("stylesheetSCX.css");
+				sc3.getStylesheets().add("GUI/stylesheetSCX.css");
 				fenster.setScene(sc3);
 
 				}
@@ -234,7 +234,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				breite = 1000;
 				hoehe = 600;
 				sc4 = new Scene(editorCode());
-				sc4.getStylesheets().add("stylesheetSCX.css");
+				sc4.getStylesheets().add("GUI/stylesheetSCX.css");
 				fenster.setScene(sc4);
 
 			}
@@ -295,6 +295,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		t2.setLayoutY(hoehe*0.2);
 		t2.setText("Code");
 		t2.setEditable(false);
+		t1.setEditable(true);
 		System.out.println("test writing stage");
 		i = 1; //spaeter dann Compile-Code
 		s7.setOnAction(this);
@@ -311,6 +312,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		t1.setLayoutY(hoehe*0.2);
 		t1.setText("Test");
 		t1.setEditable(false);
+		t2.setEditable(true);
 		t2.setPrefWidth(breite*0.35);
 		t2.setPrefHeight(hoehe*0.6);
 		t2.setLayoutX(breite*0.1);
