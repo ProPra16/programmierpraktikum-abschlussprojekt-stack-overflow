@@ -210,6 +210,9 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 			System.exit(0);
 		}
 		if(event.getSource()==btnMenu){
+			txtCode.setText("");
+			txtTest.setText("");
+			txtCompileMsg.setText("");
 			fenster.setScene(scMenu);
 			fenster.setFullScreen(false);
 		}
@@ -290,12 +293,15 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		txtTest.setPrefHeight(300);
 		txtTest.setLayoutX(20);
 		txtTest.setLayoutY(hoehe*0.19);
-		txtTest.setText("Test");
+		String test = "";
+		for(int i=0;i<ctrl.getCurExc().getTestClassContent().size();i++) {
+			test += ctrl.getCurExc().getTestClassContent().get(i) + "\n";
+		}
+		txtTest.setText(test);
 		txtCode.setPrefWidth(breite*0.43);
 		txtCode.setPrefHeight(300);
 		txtCode.setLayoutX(breite*0.55);
 		txtCode.setLayoutY(hoehe*0.19);
-		txtCode.setText("Code");
 		txtCompileMsg.setLayoutX(20);
 		txtCompileMsg.setLayoutY(427);
 		txtCompileMsg.setPrefWidth(960);
@@ -319,12 +325,15 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		txtTest.setPrefHeight(300);
 		txtTest.setLayoutX(20);
 		txtTest.setLayoutY(hoehe*0.19);
-		txtTest.setText("Test");
 		txtCode.setPrefWidth(breite*0.43);
 		txtCode.setPrefHeight(300);
 		txtCode.setLayoutX(breite*0.55);
 		txtCode.setLayoutY(hoehe*0.19);
-		txtCode.setText("Code");
+		String code = "";
+		for(int i=0;i<ctrl.getCurExc().getClassContent().size();i++) {
+			code += ctrl.getCurExc().getClassContent().get(i) + "\n";
+		}
+		txtCode.setText(code);
 		txtCompileMsg.setLayoutX(20);
 		txtCompileMsg.setLayoutY(427);
 		txtCompileMsg.setPrefWidth(960);

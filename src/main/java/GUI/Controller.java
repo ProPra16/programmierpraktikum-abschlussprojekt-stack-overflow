@@ -17,6 +17,8 @@ import java.util.List;
  */
 public class Controller {
     private final ObservableList<TableData> data = FXCollections.observableArrayList();
+    private Excercise curExc;
+    private final String url = "src/main/java/XMLParser/TestFile.xml";
     public void setupTable(TableView t, int i) {
 
         t.getItems().clear();
@@ -31,7 +33,7 @@ public class Controller {
         t.setEditable(false);
 
         t.getColumns().addAll(nameCol,descCol);
-        XMLReader xmlr = new XMLReader("src/main/java/XMLParser/TestFile.xml");
+        XMLReader xmlr = new XMLReader(url);
         List<Excercise> exc = xmlr.getExcercises();
         for(int j=0;j<exc.size();j++) {
             Excercise tmp = exc.get(j);
@@ -52,6 +54,9 @@ public class Controller {
             }
         }
         t.setItems(data);
+        t.getSelectionModel().select(0);
+        t.getFocusModel().focus(0);
+        curExc = xmlr.getExcercises().get(0);
         detectRowClick(t);
 
     }
@@ -60,13 +65,21 @@ public class Controller {
         t.setRowFactory( tv -> {
             TableRow<TableData> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
-                if (event.getClickCount() == 2 && (! row.isEmpty()) ) {
+                if (event.getClickCount() == 1 && (! row.isEmpty()) ) {
                     TableData rowData = row.getItem();
-                    String name = rowData.getName();
-                    System.out.println(name);
+                    XMLReader r = new XMLReader(url);
+                    for(int i=0;i<r.getExcercises().size();i++) {
+                        if(r.getExcercises().get(i).getName().equals(rowData.getName())) {
+                            curExc = r.getExcercises().get(i);
+                        }
+                    }
                 }
             });
             return row ;
         });
+    }
+
+    public Excercise getCurExc() {
+        return curExc;
     }
 }
