@@ -22,27 +22,44 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	Scene scList;
 	Scene scTest;
 	Scene scCode;
+	Scene scATDD;
+	Scene scRefactoring;
 	Button btnNormal;
 	Button btnBabystep;
 	Button btnQuitxtTest;
-	Button btnQuitxtCode;
+	Button btnQuitCode;
 	Button btnMenu;
-	Button btnNextxtTest;
-	Button btnNextxtCode;
+	Button btnNextTest;
+	Button btnNextCode;
+	Button btnNextATDD;
+	Button btnNextRefactoring;
 	Button btnTimer;
+	Button btnBackTest;
+	Button btnBackATDD;
+	Button btnSaveAndMenu;
+	Button btnSaveAndTest;
+	Button btnSaveAndATDD;
+	Button btnCheckATDD;
+	Button btnCheckList;
+	Button btnCheckCODE;
+	Button btnCheckTest;
+	Button btnCheckRefactoring;
 	Label lbTitel;
 	Label lbCredits1;	
-	Label lbRepeat;
-	Label lbRepeatBlue;
+	Label lbRefactoring;
+	Label lbRefactoringb;
 	Label lbCredits2;
 	Label lbList;
 	Label lbTest;
 	Label lbCode;
+	Label lbATDD;
 	Label lbListb;
 	Label lbCodeb;
 	Label lbTestb;
+	Label lbATDDb;
 	TextArea txtTest;
 	TextArea txtCode;
+	TextArea txtATDD;
 	TextArea txtCompileMsg;
 	int breite;
 	int hoehe;
@@ -55,6 +72,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	@Override
 	public void start(Stage arg0) throws Exception {
 		fenster = arg0;
+		fenster.setResizable(false);
 		arg0.setTitle("TDDT");
 		ctrl = new Controller();
 		table = new TableView();
@@ -63,6 +81,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 
 		txtTest = new TextArea();
 		txtCode = new TextArea();
+		txtATDD = new TextArea();
 		txtCompileMsg = new TextArea();
 		//Muss noch angepasst werden!
 
@@ -81,48 +100,94 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		lbCredits2.setTranslateY(580);
 		
 		lbList = new Label("1.Choose Exercise");
-		lbList.setTranslateX(200);
+		lbList.setTranslateX(150);
 		lbList.setTranslateY(50);
 		lbList.setFont(new Font("Arial", 15));
 		lbList.setTextFill(Color.web("#FFFFFF"));
 		lbListb = new Label("1.Choose Exercise");
-		lbListb.setTranslateX(200);
+		lbListb.setTranslateX(150);
 		lbListb.setTranslateY(50);
 		lbListb.setFont(new Font("Arial", 15));
 		lbListb.setTextFill(Color.web("#2196F3"));
 		
-		lbTest = new Label("2.Write a Test");
-		lbTest.setTranslateX(400);
+		lbATDD = new Label("2.Write a ATDD");
+		lbATDD.setTranslateX(300);
+		lbATDD.setTranslateY(50);
+		lbATDD.setFont(new Font("Arial", 15));
+		lbATDD.setTextFill(Color.web("#FFFFFF"));
+		lbATDDb = new Label("2.Write a ATDD");
+		lbATDDb.setTranslateX(300);
+		lbATDDb.setTranslateY(50);
+		lbATDDb.setFont(new Font("Arial", 15));
+		lbATDDb.setTextFill(Color.web("#2196F3"));
+		
+		lbTest = new Label("3.Write a Test");
+		lbTest.setTranslateX(450);
 		lbTest.setTranslateY(50);
 		lbTest.setFont(new Font("Arial", 15));
 		lbTest.setTextFill(Color.web("#FFFFFF"));
-		lbTestb = new Label("2.Write a Test");
-		lbTestb.setTranslateX(400);
+		lbTestb = new Label("3.Write a Test");
+		lbTestb.setTranslateX(450);
 		lbTestb.setTranslateY(50);
 		lbTestb.setFont(new Font("Arial", 15));
 		lbTestb.setTextFill(Color.web("#2196F3"));
 		
-		lbCode = new Label("3.Write the Code");
+		lbCode = new Label("4.Write the Code");
 		lbCode.setTranslateX(600);
 		lbCode.setTranslateY(50);
 		lbCode.setFont(new Font("Arial", 15));
 		lbCode.setTextFill(Color.web("#FFFFFF"));
-		lbCodeb = new Label("3.Write the Code");
+		lbCodeb = new Label("4.Write the Code");
 		lbCodeb.setTranslateX(600);
 		lbCodeb.setTranslateY(50);
 		lbCodeb.setFont(new Font("Arial", 15));
 		lbCodeb.setTextFill(Color.web("#2196F3"));
 		
-		lbRepeat = new Label("4.Repeat");
-		lbRepeat.setTranslateX(800);
-		lbRepeat.setTranslateY(50);
-		lbRepeat.setFont(new Font("Arial", 15));
-		lbRepeat.setTextFill(Color.web("#FFFFFF"));
-		lbRepeatBlue = new Label("4.Repeat");
-		lbRepeatBlue.setTranslateX(800);
-		lbRepeatBlue.setTranslateY(50);
-		lbRepeatBlue.setFont(new Font("Arial", 15));
-		lbRepeatBlue.setTextFill(Color.web("#2196F3"));
+		lbRefactoring = new Label("5.Refactoring");
+		lbRefactoring.setTranslateX(750);
+		lbRefactoring.setTranslateY(50);
+		lbRefactoring.setFont(new Font("Arial", 15));
+		lbRefactoring.setTextFill(Color.web("#FFFFFF"));
+		lbRefactoringb = new Label("5.Refactoring");
+		lbRefactoringb.setTranslateX(750);
+		lbRefactoringb.setTranslateY(50);
+		lbRefactoringb.setFont(new Font("Arial", 15));
+		lbRefactoringb.setTextFill(Color.web("#2196F3"));
+		
+		btnCheckList = new Button();
+		btnCheckList.setText("   ");
+		btnCheckList.setTranslateX(200);
+		btnCheckList.setTranslateY(20);
+		btnCheckList.setOnAction(this);
+		btnCheckList.setId("button_red");
+		
+		btnCheckATDD = new Button();
+		btnCheckATDD.setText("   ");
+		btnCheckATDD.setTranslateX(340);
+		btnCheckATDD.setTranslateY(20);
+		btnCheckATDD.setOnAction(this);
+		btnCheckATDD.setId("button_red");
+		
+		btnCheckTest = new Button();
+		btnCheckTest.setText("   ");
+		btnCheckTest.setTranslateX(490);
+		btnCheckTest.setTranslateY(20);
+		btnCheckTest.setOnAction(this);
+		btnCheckTest.setId("button_red");
+		
+		btnCheckCODE = new Button();
+		btnCheckCODE.setText("   ");
+		btnCheckCODE.setTranslateX(650);
+		btnCheckCODE.setTranslateY(20);
+		btnCheckCODE.setOnAction(this);
+		btnCheckCODE.setId("button_red");
+		
+		btnCheckRefactoring = new Button();
+		btnCheckRefactoring.setText("   ");
+		btnCheckRefactoring.setTranslateX(790);
+		btnCheckRefactoring.setTranslateY(20);
+		btnCheckRefactoring.setOnAction(this);
+		btnCheckRefactoring.setId("button_red");
 		
 		btnNormal = new Button();
 		btnNormal.setText("Normal-Codes");
@@ -146,12 +211,12 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		btnQuitxtTest.setOnAction(this);
 		btnQuitxtTest.setId("button");
 		
-		btnQuitxtCode = new Button();
-		btnQuitxtCode.setText("Quit");
-		btnQuitxtCode.setTranslateX(20);
-		btnQuitxtCode.setTranslateY(535);
-		btnQuitxtCode.setOnAction(this);
-		btnQuitxtCode.setId("button");
+		btnQuitCode = new Button();
+		btnQuitCode.setText("Quit");
+		btnQuitCode.setTranslateX(20);
+		btnQuitCode.setTranslateY(535);
+		btnQuitCode.setOnAction(this);
+		btnQuitCode.setId("button");
 		
 		btnMenu = new Button();
 		btnMenu.setText("Menu");
@@ -160,17 +225,60 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		btnMenu.setOnAction(this);
 		btnMenu.setId("button");
 		
-		btnNextxtTest = new Button();
-		btnNextxtTest.setText("Next");
-		btnNextxtTest.setTranslateX(905);
-		btnNextxtTest.setTranslateY(535);
-		btnNextxtTest.setId("button");
+		btnNextTest = new Button();
+		btnNextTest.setText("Next");
+		btnNextTest.setTranslateX(905);
+		btnNextTest.setTranslateY(535);
+		btnNextTest.setId("button");
 		
-		btnNextxtCode = new Button();
-		btnNextxtCode.setText("Next");
-		btnNextxtCode.setTranslateX(905);
-		btnNextxtCode.setTranslateY(535);
-		btnNextxtCode.setId("button");
+		btnBackTest = new Button();
+		btnBackTest.setText("Back");
+		btnBackTest.setTranslateX(810);
+		btnBackTest.setTranslateY(535);
+		btnBackTest.setId("button");
+		
+		btnNextCode = new Button();
+		btnNextCode.setText("Next");
+		btnNextCode.setTranslateX(905);
+		btnNextCode.setTranslateY(535);
+		btnNextCode.setId("button");
+		
+		btnNextATDD = new Button();
+		btnNextATDD.setText("Next");
+		btnNextATDD.setTranslateX(905);
+		btnNextATDD.setTranslateY(535);
+		btnNextATDD.setId("button");
+		
+		btnBackATDD = new Button();
+		btnBackATDD.setText("Back");
+		btnBackATDD.setTranslateX(810);
+		btnBackATDD.setTranslateY(535);
+		btnBackATDD.setId("button");
+		
+		btnNextRefactoring = new Button();
+		btnNextRefactoring.setText("Next");
+		btnNextRefactoring.setTranslateX(905);
+		btnNextRefactoring.setTranslateY(535);
+		btnNextRefactoring.setId("button");
+		
+		btnSaveAndTest = new Button();
+		btnSaveAndTest.setText("Save&Test");
+		btnSaveAndTest.setTranslateX(850);
+		btnSaveAndTest.setTranslateY(535);
+		btnSaveAndTest.setId("button");
+		
+		btnSaveAndATDD = new Button();
+		btnSaveAndATDD.setText("Save&ATDD");
+		btnSaveAndATDD.setTranslateX(700);
+		btnSaveAndATDD.setTranslateY(535);
+		btnSaveAndATDD.setId("button");
+		
+		btnSaveAndMenu = new Button();
+		btnSaveAndMenu.setText("Save&Menu");
+		btnSaveAndMenu.setTranslateX(550);
+		btnSaveAndMenu.setTranslateY(535);
+		btnSaveAndMenu.setId("button");
+		
 		
 		btnTimer = new Button();
 		btnTimer.setText("*Timer*");
@@ -206,17 +314,40 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		if(event.getSource()==btnQuitxtTest){
 			System.exit(0);
 		}
-		if(event.getSource()==btnQuitxtCode){
+		if(event.getSource()==btnQuitCode){
 			System.exit(0);
 		}
-		if(event.getSource()==btnMenu){
+		if(event.getSource()==btnMenu || event.getSource()==btnSaveAndMenu){
 			txtCode.setText("");
 			txtTest.setText("");
+			btnCheckList.setId("button_red");
+			btnCheckATDD.setId("button_red");
+			btnCheckTest.setId("button_red");
+			btnCheckCODE.setId("button_red");
+			btnCheckRefactoring.setId("button_red");
 			txtCompileMsg.setText("");
 			fenster.setScene(scMenu);
 			fenster.setFullScreen(false);
 		}
-		if(event.getSource()==btnNextxtTest){
+		if(event.getSource()==btnNextATDD || event.getSource()==btnBackATDD || event.getSource()==btnSaveAndATDD){
+				btnCheckList.setId("button_green");
+				breite = 1000;
+				hoehe = 600;
+				scATDD = new Scene(editorATDD());
+				scATDD.getStylesheets().add("GUI/stylesheetSCX.css");
+				fenster.setScene(scATDD);
+
+				}
+		if(event.getSource()==btnNextRefactoring){
+			breite = 1000;
+			hoehe = 600;
+			scRefactoring = new Scene(editorRefactoring());
+			scRefactoring.getStylesheets().add("GUI/stylesheetSCX.css");
+			fenster.setScene(scRefactoring);
+
+			}
+		
+		if(event.getSource()==btnNextTest || event.getSource()==btnBackTest || event.getSource()==btnSaveAndTest){
 			if(status == 1){
 				breite = 1000;
 				hoehe = 600;
@@ -234,7 +365,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				alert.showAndWait();
 			}
 		}
-		if(event.getSource()==btnNextxtCode){
+		if(event.getSource()==btnNextCode){
 			if(status == 1){
 				breite = 1000;
 				hoehe = 600;
@@ -255,6 +386,56 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	}
 
 
+	private Parent editorRefactoring() {
+		Pane root = new Pane();
+        root.setPrefSize(breite, hoehe);
+		root.getChildren().addAll(lbRefactoringb,lbCredits2,lbList,lbTest,lbCode,lbATDD,txtCode,txtTest,txtCompileMsg,btnQuitCode,btnCheckList,btnCheckTest,btnCheckCODE,btnCheckATDD,btnCheckRefactoring,btnSaveAndATDD,btnSaveAndTest,btnSaveAndMenu,btnMenu);
+		txtTest.setPrefWidth(breite*0.45);
+		txtTest.setPrefHeight(300);
+		txtTest.setLayoutX(20);
+		txtTest.setLayoutY(hoehe*0.19);
+		txtCode.setPrefWidth(breite*0.43);
+		txtCode.setPrefHeight(300);
+		txtCode.setLayoutX(breite*0.55);
+		txtCode.setLayoutY(hoehe*0.19);
+		txtCompileMsg.setLayoutX(20);
+		txtCompileMsg.setLayoutY(427);
+		txtCompileMsg.setPrefWidth(960);
+		txtCompileMsg.setPrefHeight(100);
+		txtCompileMsg.setEditable(false);
+		txtCompileMsg.setText("error code hier...");
+		txtTest.setEditable(true);
+		txtCode.setEditable(true);
+
+		status = 1; //spaeter dann Compile-Code
+		System.out.println("Refactoring-Stage");
+		btnSaveAndATDD.setOnAction(this);
+		btnSaveAndMenu.setOnAction(this);
+		btnSaveAndTest.setOnAction(this);
+		return root;
+	}
+
+	private Parent editorATDD() {
+		Pane root = new Pane();
+        root.setPrefSize(breite, hoehe);
+		root.getChildren().addAll(lbRefactoring,lbCredits2,lbList,lbTest,lbCode,btnCheckList,btnCheckTest,btnCheckCODE,btnCheckATDD,btnCheckRefactoring,lbATDDb,txtATDD,txtCompileMsg,btnQuitCode,btnMenu,btnNextTest);
+		txtATDD.setPrefWidth(breite*0.96);
+		txtATDD.setPrefHeight(300);
+		txtATDD.setLayoutX(20);
+		txtATDD.setLayoutY(hoehe*0.19);
+		txtCompileMsg.setLayoutX(20);
+		txtCompileMsg.setLayoutY(427);
+		txtCompileMsg.setPrefWidth(960);
+		txtCompileMsg.setPrefHeight(100);
+		txtCompileMsg.setEditable(false);
+		txtCompileMsg.setText("error code hier...");
+		txtTest.setEditable(false);
+		status = 1; //spaeter dann Compile-Code
+		System.out.println("ATDD writing stage");
+		btnNextTest.setOnAction(this);
+		return root;
+	}
+
 	private Parent create(int a) {
 		ctrl.setupTable(table,a);
 		table.setPrefWidth(breite*0.75);
@@ -264,20 +445,20 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 
 		Pane root = new Pane();
         root.setPrefSize(breite, hoehe);
-		root.getChildren().addAll(lbRepeat,lbCredits2,lbListb,lbTest,lbCode,btnQuitxtCode,btnMenu,btnNextxtTest,table);
+		root.getChildren().addAll(lbRefactoring,lbCredits2,lbListb,lbTest,lbCode,lbATDD,btnQuitCode,btnCheckList,btnCheckTest,btnCheckCODE,btnCheckATDD,btnCheckRefactoring,btnMenu,btnNextATDD,table);
         if(a == 1){
 
         	//Reader fuer nicht-Babysteps Codes
         	//AuswahlBox-Klasse (im folgenden zum testen:)
         	status = 1; //spaeter dann Compile-Code
-        	btnNextxtTest.setOnAction(this);
+        	btnNextATDD.setOnAction(this);
         	
         }
         if(a == 2){
         	//Reader fuer Babysteps Codes
         	//AuswahlBox-Klasse (im folgenden zum testen:)
         	status = 1; //spaeter dann Compile-Code
-        	btnNextxtTest.setOnAction(this);
+        	btnNextATDD.setOnAction(this);
         }
        
         return root;
@@ -288,7 +469,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	private Parent editorTest() {
 		Pane root = new Pane();
         root.setPrefSize(breite, hoehe);
-		root.getChildren().addAll(lbRepeat,lbCredits2,lbList,lbTestb,lbCode,txtTest,txtCode,txtCompileMsg,btnQuitxtCode,btnMenu,btnNextxtCode,btnTimer);
+		root.getChildren().addAll(lbRefactoring,lbCredits2,lbList,lbTestb,lbCode,lbATDD,txtTest,txtCode,txtCompileMsg,btnQuitCode,btnCheckList,btnCheckTest,btnCheckCODE,btnCheckATDD,btnCheckRefactoring,btnMenu,btnNextCode,btnBackATDD,btnTimer);
 		txtTest.setPrefWidth(breite*0.45);
 		txtTest.setPrefHeight(300);
 		txtTest.setLayoutX(20);
@@ -313,14 +494,15 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 
 		System.out.println("test writing stage");
 		status = 1; //spaeter dann Compile-Code
-		btnNextxtCode.setOnAction(this);
+		btnNextCode.setOnAction(this);
+		btnBackATDD.setOnAction(this);
 		return root;
 	}
 
 	private Parent editorCode() {
 		Pane root = new Pane();
         root.setPrefSize(breite, hoehe);
-		root.getChildren().addAll(lbRepeat,lbCredits2,lbList,lbTest,lbCodeb,txtCode,txtTest,txtCompileMsg,btnQuitxtCode,btnMenu,btnNextxtTest,btnTimer);
+		root.getChildren().addAll(lbRefactoring,lbCredits2,lbList,lbTest,lbCodeb,lbATDD,txtCode,txtTest,txtCompileMsg,btnQuitCode,btnCheckList,btnCheckTest,btnCheckCODE,btnCheckATDD,btnCheckRefactoring,btnMenu,btnNextRefactoring,btnBackTest,btnTimer);
 		txtTest.setPrefWidth(breite*0.45);
 		txtTest.setPrefHeight(300);
 		txtTest.setLayoutX(20);
@@ -345,7 +527,8 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 
 		status = 1; //spaeter dann Compile-Code
 		System.out.println("code writing stage");
-		btnNextxtTest.setOnAction(this);
+		btnNextRefactoring.setOnAction(this);
+		btnBackTest.setOnAction(this);
 		return root;
 	}
 }
