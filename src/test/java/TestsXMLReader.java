@@ -15,7 +15,7 @@ public class TestsXMLReader {
 
     @Before
     public void initialize() {
-        xmlr = new XMLReader("src/main/java/XMLParser/TestFile.xml");
+        xmlr = new XMLReader("src/main/resources/TestFile.xml");
     }
 
     @Test

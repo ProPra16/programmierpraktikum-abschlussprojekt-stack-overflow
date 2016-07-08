@@ -293,7 +293,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		StackPane rahmen = new StackPane();
 		rahmen.getChildren().addAll(lbTitel,lbCredits1,btnNormal,btnBabystep,btnQuitxtTest);
 		scMenu = new Scene(rahmen, 200, 400);
-		scMenu.getStylesheets().add("GUI/stylesheetSC1.css");
+		scMenu.getStylesheets().add("stylesheetSC1.css");
 		arg0.setScene(scMenu);
 		arg0.show();
 		
@@ -304,14 +304,14 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 			breite = 1000;
 			hoehe = 600;
 			scList = new Scene(create(1));
-			scList.getStylesheets().add("GUI/stylesheetSCX.css");
+			scList.getStylesheets().add("stylesheetSCX.css");
 			fenster.setScene(scList);
 		}
 		if(event.getSource()==btnBabystep){
 			breite = 1000;
 			hoehe = 600;
 			scList = new Scene(create(2));
-			scList.getStylesheets().add("GUI/stylesheetSCX.css");
+			scList.getStylesheets().add("stylesheetSCX.css");
 			fenster.setScene(scList);
 		}
 		if(event.getSource()==btnQuitxtTest){
@@ -340,18 +340,20 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				breite = 1000;
 				hoehe = 600;
 				scATDD = new Scene(editorATDD());
-				scATDD.getStylesheets().add("GUI/stylesheetSCX.css");
+				scATDD.getStylesheets().add("stylesheetSCX.css");
 				fenster.setScene(scATDD);
 
 				}
 		if(event.getSource()==btnNextRefactoring){
-			breite = 1000;
-			hoehe = 600;
-			scRefactoring = new Scene(editorRefactoring());
-			scRefactoring.getStylesheets().add("GUI/stylesheetSCX.css");
-			fenster.setScene(scRefactoring);
-
+			if(ctrl.compileTest(txtTest.getText(),txtCode.getText(),txtCompileMsg)) {
+				breite = 1000;
+				hoehe = 600;
+				scRefactoring = new Scene(editorRefactoring());
+				scRefactoring.getStylesheets().add("stylesheetSCX.css");
+				fenster.setScene(scRefactoring);
 			}
+
+		}
 		if(event.getSource() == btnSaveAndTest || event.getSource() == btnSaveAndATDD) {
 			firstCode = false;
 			firstTest = false;
@@ -362,7 +364,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				hoehe = 600;
 
 				scTest = new Scene(editorTest());
-				scTest.getStylesheets().add("GUI/stylesheetSCX.css");
+				scTest.getStylesheets().add("stylesheetSCX.css");
 				fenster.setScene(scTest);
 
 				}
@@ -377,11 +379,23 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		}
 		if(event.getSource()==btnNextCode){
 			if(status == 1){
-				breite = 1000;
-				hoehe = 600;
-				scCode = new Scene(editorCode());
-				scCode.getStylesheets().add("GUI/stylesheetSCX.css");
-				fenster.setScene(scCode);
+				String code = "";
+				if(txtCode.getText().equals("") || txtCode.getText().equals(null)) {
+
+					for(int i=0;i<ctrl.getCurExc().getClassContent().size();i++) {
+						code += ctrl.getCurExc().getClassContent().get(i) + "\n";
+					}
+				}
+				else {
+					code = txtCode.getText();
+				}
+				if(ctrl.compileTest(txtTest.getText(),code,txtCompileMsg)) {
+					breite = 1000;
+					hoehe = 600;
+					scCode = new Scene(editorCode());
+					scCode.getStylesheets().add("stylesheetSCX.css");
+					fenster.setScene(scCode);
+				}
 
 			}
 			else
@@ -413,7 +427,6 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		txtCompileMsg.setPrefWidth(960);
 		txtCompileMsg.setPrefHeight(100);
 		txtCompileMsg.setEditable(false);
-		txtCompileMsg.setText("error code hier...");
 		txtTest.setEditable(true);
 		txtCode.setEditable(true);
 
@@ -438,7 +451,6 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		txtCompileMsg.setPrefWidth(960);
 		txtCompileMsg.setPrefHeight(100);
 		txtCompileMsg.setEditable(false);
-		txtCompileMsg.setText("error code hier...");
 		txtTest.setEditable(false);
 		status = 1; //spaeter dann Compile-Code
 		System.out.println("ATDD writing stage");
@@ -469,6 +481,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
         	//AuswahlBox-Klasse (im folgenden zum testen:)
         	status = 1; //spaeter dann Compile-Code
         	btnNextATDD.setOnAction(this);
+
         }
        
         return root;
@@ -500,7 +513,6 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		txtCompileMsg.setPrefWidth(960);
 		txtCompileMsg.setPrefHeight(100);
 		txtCompileMsg.setEditable(false);
-		txtCompileMsg.setText("error code hier...");
 		txtCode.setEditable(false);
 		txtTest.setEditable(true);
 
@@ -535,7 +547,6 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		txtCompileMsg.setPrefWidth(960);
 		txtCompileMsg.setPrefHeight(100);
 		txtCompileMsg.setEditable(false);
-		txtCompileMsg.setText("error code hier...");
 		txtTest.setEditable(false);
 		txtCode.setEditable(true);
 

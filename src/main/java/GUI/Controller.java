@@ -1,6 +1,7 @@
 package GUI;
 
 
+import CompileHandler.CompileHandler;
 import XMLParser.Excercise;
 import XMLParser.XMLReader;
 import javafx.collections.FXCollections;
@@ -8,6 +9,7 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.List;
@@ -17,8 +19,9 @@ import java.util.List;
  */
 public class Controller {
     private final ObservableList<TableData> data = FXCollections.observableArrayList();
+    private CompileHandler compH;
     private Excercise curExc;
-    private final String url = "src/main/java/XMLParser/TestFile.xml";
+    private final String url = "src/main/resources/TestFile.xml";
     public void setupTable(TableView t, int i) {
 
         t.getItems().clear();
@@ -81,5 +84,26 @@ public class Controller {
 
     public Excercise getCurExc() {
         return curExc;
+    }
+
+    public boolean compileTest(String test, String code,TextArea txtError) {
+        if(curExc.getClassNames().size() > 1) {
+            // more than one classes
+            for(int i=0;i < curExc.getClassNames().size();i++) {
+                compH = new CompileHandler(curExc.getClassNames().get(i),code,curExc.getTestClassNames().get(0),test);
+            }
+        }
+        else {
+            compH = new CompileHandler(curExc.getClassNames().get(0),code,curExc.getTestClassNames().get(0),test);
+            String[] tmp = compH.executeCompiler();
+            txtError.setEditable(true);
+            txtError.appendText(tmp[0]);
+            txtError.appendText(tmp[1]);
+            txtError.appendText(tmp[2]);
+            txtError.setEditable(false);
+            return compH.testStatus();
+        }
+        return false;
+
     }
 }
