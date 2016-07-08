@@ -67,6 +67,8 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	Controller ctrl;
 	TableView table;
 
+	boolean firstTest,firstCode;
+
 
 	
 	@Override
@@ -77,7 +79,8 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		ctrl = new Controller();
 		table = new TableView();
 
-
+		firstTest = true;
+		firstCode = true;
 
 		txtTest = new TextArea();
 		txtCode = new TextArea();
@@ -328,6 +331,9 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 			txtCompileMsg.setText("");
 			fenster.setScene(scMenu);
 			fenster.setFullScreen(false);
+			firstCode = true;
+			firstTest = true;
+			txtATDD.setText("");
 		}
 		if(event.getSource()==btnNextATDD || event.getSource()==btnBackATDD || event.getSource()==btnSaveAndATDD){
 				btnCheckList.setId("button_green");
@@ -346,11 +352,15 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 			fenster.setScene(scRefactoring);
 
 			}
-		
+		if(event.getSource() == btnSaveAndTest || event.getSource() == btnSaveAndATDD) {
+			firstCode = false;
+			firstTest = false;
+		}
 		if(event.getSource()==btnNextTest || event.getSource()==btnBackTest || event.getSource()==btnSaveAndTest){
 			if(status == 1){
 				breite = 1000;
 				hoehe = 600;
+
 				scTest = new Scene(editorTest());
 				scTest.getStylesheets().add("GUI/stylesheetSCX.css");
 				fenster.setScene(scTest);
@@ -478,7 +488,9 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		for(int i=0;i<ctrl.getCurExc().getTestClassContent().size();i++) {
 			test += ctrl.getCurExc().getTestClassContent().get(i) + "\n";
 		}
-		txtTest.setText(test);
+		if(firstTest) {
+			txtTest.setText(test);
+		}
 		txtCode.setPrefWidth(breite*0.43);
 		txtCode.setPrefHeight(300);
 		txtCode.setLayoutX(breite*0.55);
@@ -515,7 +527,9 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		for(int i=0;i<ctrl.getCurExc().getClassContent().size();i++) {
 			code += ctrl.getCurExc().getClassContent().get(i) + "\n";
 		}
-		txtCode.setText(code);
+		if(firstCode) {
+			txtCode.setText(code);
+		}
 		txtCompileMsg.setLayoutX(20);
 		txtCompileMsg.setLayoutY(427);
 		txtCompileMsg.setPrefWidth(960);
