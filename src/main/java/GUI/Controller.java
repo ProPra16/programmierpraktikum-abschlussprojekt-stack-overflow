@@ -86,7 +86,7 @@ public class Controller {
         return curExc;
     }
 
-    public boolean compileTest(String test, String code,TextArea txtError) {
+    public boolean compileTest(String test, String code,String accCode,String accName,TextArea txtError, boolean ShouldOnlyCompile) {
         if(curExc.getClassNames().size() > 1) {
             // more than one classes
             for(int i=0;i < curExc.getClassNames().size();i++) {
@@ -94,14 +94,29 @@ public class Controller {
             }
         }
         else {
-            compH = new CompileHandler(curExc.getClassNames().get(0),code,curExc.getTestClassNames().get(0),test);
+            compH = new CompileHandler(curExc.getClassNames().get(0),code,curExc.getTestClassNames().get(0),test,accName,accCode);
             String[] tmp = compH.executeCompiler();
             txtError.setEditable(true);
             txtError.appendText(tmp[0]);
             txtError.appendText(tmp[1]);
             txtError.appendText(tmp[2]);
+            txtError.appendText(tmp[3]);
             txtError.setEditable(false);
-            return compH.testStatus();
+            if(ShouldOnlyCompile) {
+                if(tmp[1].equals(null) || tmp[1].equals("") || tmp[1].isEmpty()) {
+                    return true;
+                }
+                else  {
+                    return false;
+                }
+            }
+            else {
+                if(compH.testStatus() && compH.acceptanceStatus()) {
+
+                    return true;
+                }
+                return false;
+            }
         }
         return false;
 

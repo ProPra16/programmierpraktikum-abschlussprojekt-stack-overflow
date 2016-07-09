@@ -7,10 +7,6 @@
                 public class RomanNumberConverter {
                 }
             </class>
-            <class name="RomanNumberConverter2">
-                public class RomanNumberConverter2 {
-                }
-            </class>
         </classes>
         <tests>
             <test name="RomanNumberConverterTest">
@@ -30,8 +26,14 @@
     <exercise name="aufgabe 2">
         <description>nr 2</description>
         <classes>
-            <class name="methode2">
-                public class methode2 {
+            <class name="Methode2">
+                public class Methode2 {
+                    public static int add(int a, int b) {
+                        return a+b;
+                    }
+                    public static int sub(int a, int b) {
+                        return a-b;
+                    }
                 }
             </class>
 
@@ -42,11 +44,22 @@
                 import org.junit.Test;
                 public class methode2test {
                 @Test
-                public void testSomething() {
+                public void testSub() {
+                    assertEquals(3,Methode2.sub(4,1));
                 }
                 }
             </test>
         </tests>
+        <acc name="AccTest">
+            import static org.junit.Assert.*;
+            import org.junit.Test;
+            public class AccTest {
+                @Test
+                public void testAdd() {
+                    assertEquals(5,Methode2.add(4,1));
+                }
+            }
+        </acc>
         <config>
             <babysteps value="false" time="2:30" />
         </config>

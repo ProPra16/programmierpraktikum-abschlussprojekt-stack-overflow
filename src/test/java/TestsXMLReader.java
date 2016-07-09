@@ -26,7 +26,6 @@ public class TestsXMLReader {
     @Test
     public void shouldhaveExplicitClassName2() {
         assertEquals("RomanNumberConverter",xmlr.getExcercises().get(0).getClassNames().get(0));
-        assertEquals("RomanNumberConverter2",xmlr.getExcercises().get(0).getClassNames().get(1));
     }
 
     @Test

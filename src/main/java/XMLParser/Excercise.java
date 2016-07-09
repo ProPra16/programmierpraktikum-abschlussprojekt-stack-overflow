@@ -9,6 +9,7 @@ public class Excercise {
     private ArrayList<String> classContent;
     private ArrayList<String> testClassNames;
     private ArrayList<String> testClassContent;
+    private String accTestName,accTestCode;
     private boolean babysteps;
     private long babystepstime;
 
@@ -19,7 +20,10 @@ public class Excercise {
         this.testClassContent = testclassContent;
     }
 
-
+    public void setAccTestName(String n) { this.accTestName = n;}
+    public void setAccTestCode(String n) { this.accTestCode = n;}
+    public String getAccTestName() { return accTestName;}
+    public String getAccTestCode() { return accTestCode; }
     public void setName(String n) {
         this.name = n;
     }

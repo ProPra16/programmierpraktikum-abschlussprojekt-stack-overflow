@@ -345,7 +345,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 
 				}
 		if(event.getSource()==btnNextRefactoring){
-			if(ctrl.compileTest(txtTest.getText(),txtCode.getText(),txtCompileMsg)) {
+			if(ctrl.compileTest(txtTest.getText(),txtCode.getText(),txtATDD.getText(),ctrl.getCurExc().getAccTestName(),txtCompileMsg,false)) {
 				breite = 1000;
 				hoehe = 600;
 				scRefactoring = new Scene(editorRefactoring());
@@ -380,7 +380,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		if(event.getSource()==btnNextCode){
 			if(status == 1){
 				String code = "";
-				if(txtCode.getText().equals("") || txtCode.getText().equals(null)) {
+				if(txtCode.getText().equals("") || txtCode.getText().equals(null) || txtCode.getText().isEmpty()) {
 
 					for(int i=0;i<ctrl.getCurExc().getClassContent().size();i++) {
 						code += ctrl.getCurExc().getClassContent().get(i) + "\n";
@@ -389,7 +389,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				else {
 					code = txtCode.getText();
 				}
-				if(ctrl.compileTest(txtTest.getText(),code,txtCompileMsg)) {
+				if(ctrl.compileTest(txtTest.getText(),code,txtATDD.getText(),ctrl.getCurExc().getAccTestName(),txtCompileMsg,true)) {
 					breite = 1000;
 					hoehe = 600;
 					scCode = new Scene(editorCode());
@@ -452,6 +452,9 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		txtCompileMsg.setPrefHeight(100);
 		txtCompileMsg.setEditable(false);
 		txtTest.setEditable(false);
+		if(firstCode) {
+			txtATDD.setText(ctrl.getCurExc().getAccTestCode());
+		}
 		status = 1; //spaeter dann Compile-Code
 		System.out.println("ATDD writing stage");
 		btnNextTest.setOnAction(this);

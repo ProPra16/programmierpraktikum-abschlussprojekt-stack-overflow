@@ -66,6 +66,12 @@ public class XMLWriter {
                         // class content now
                         test_node.appendChild(doc.createTextNode(exc.get(i).getTestClassContent().get(k)));
                     }
+                    Element acc = doc.createElement("acc");
+                    Attr attr_docname = doc.createAttribute("name");
+                    attr_docname.setValue(exc.get(i).getAccTestName());
+                    acc.setAttributeNode(attr_docname);
+                    exercise.appendChild(acc);
+                    acc.appendChild(doc.createTextNode(exc.get(i).getAccTestCode()));
 
                     Element config = doc.createElement("config");
                     exercise.appendChild(config);

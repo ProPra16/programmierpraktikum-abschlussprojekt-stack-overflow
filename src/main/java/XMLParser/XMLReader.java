@@ -61,6 +61,9 @@ public class XMLReader extends DefaultHandler {
                 else if(qName.equals("test")) {
                     testclassNameList.add(attributes.getValue("name"));
                 }
+                else if(qName.equals("acc")) {
+                    exc.setAccTestName(attributes.getValue("name"));
+                }
                 else if(qName.equals("babysteps")) {
                     String isBabystep = attributes.getValue("value");
                     if(isBabystep.equals("true") || isBabystep.equals("True")) {
@@ -90,6 +93,9 @@ public class XMLReader extends DefaultHandler {
         }
         if(qName.equals("description")) {
             exc.setDescription(accumulator.toString().trim());
+        }
+        if(qName.equals("acc")) {
+            exc.setAccTestCode(accumulator.toString().trim());
         }
     }
 
