@@ -30,12 +30,12 @@ public class TestsXMLReader {
 
     @Test
     public void getsrightBabystepsAttributes() {
-        assertEquals(true,xmlr.getExcercises().get(0).isBabysteps());
+        assertEquals(true,xmlr.getExcercises().get(1).isBabysteps());
     }
 
     @Test
     public void getRightBabystepsTime() {
         long time = TimeUnit.MINUTES.toSeconds(2) +  30;
-        assertEquals(time,xmlr.getExcercises().get(0).getBabystepstime());
+        assertEquals(time,xmlr.getExcercises().get(1).getBabystepstime());
     }
 }
