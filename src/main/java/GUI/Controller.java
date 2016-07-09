@@ -2,17 +2,18 @@ package GUI;
 
 
 import CompileHandler.CompileHandler;
+import CountdownTimer.CountdownTimer;
 import XMLParser.Excercise;
 import XMLParser.XMLReader;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextArea;
+import javafx.concurrent.Task;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Shonen on 05.07.2016.
@@ -22,6 +23,7 @@ public class Controller {
     private CompileHandler compH;
     private Excercise curExc;
     private final String url = "src/main/resources/TestFile.xml";
+    Thread thread;
     public void setupTable(TableView t, int i) {
 
         t.getItems().clear();
@@ -121,4 +123,45 @@ public class Controller {
         return false;
 
     }
+
+    public void startTimer(Label lblTimer,TextArea txtTest,TextArea txtCode) {
+
+        long seconds = curExc.getBabystepstime();
+        Task<Void> task = new Task<Void>() {
+            @Override public Void call() throws InterruptedException {
+                updateMessage("Starting timer....");
+                long mytime = TimeUnit.SECONDS.toMillis(seconds);
+                CountdownTimer timer = new CountdownTimer();
+                timer.startCountdownTimer();
+                timer.calculateElapsedTime();
+                long timertime = TimeUnit.MINUTES.toMillis(timer.getDisplayableMinutes()) + TimeUnit.SECONDS.toMillis(timer.getDisplayableSeconds());
+                System.out.println(timertime  + "|" + mytime);
+                while(timertime < mytime) {
+                    updateMessage(timer.getDisplayableMinutes() + ":" + timer.getDisplayableSeconds());
+                    timertime = TimeUnit.MINUTES.toMillis(timer.getDisplayableMinutes()) + TimeUnit.SECONDS.toMillis(timer.getDisplayableSeconds());
+                    timer.calculateElapsedTime();
+                }
+                return null;
+            }
+        };
+        lblTimer.textProperty().bind(task.messageProperty());
+        task.setOnSucceeded(e -> {
+            lblTimer.textProperty().unbind();
+            // this message will be seen.
+            txtCode.setEditable(false);
+            txtTest.setEditable(false);
+            lblTimer.setText("Now click 'Weiter'");
+        });
+        thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
+
+
+    }
+
+    public void stopTimer() {
+        thread.interrupt();
+    }
+
+
 }

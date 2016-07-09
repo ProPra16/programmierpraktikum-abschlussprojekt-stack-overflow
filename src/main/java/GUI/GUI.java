@@ -1,4 +1,7 @@
 package GUI;
+import XMLParser.Excercise;
+import XMLParser.XMLReader;
+import XMLParser.XMLWriter;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -9,11 +12,16 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TableView;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+
+import java.io.*;
+import java.util.List;
 
 
 public class GUI extends Application implements EventHandler<ActionEvent>{
@@ -33,7 +41,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	Button btnNextCode;
 	Button btnNextATDD;
 	Button btnNextRefactoring;
-	Button btnTimer;
+	Label btnTimer;
 	Button btnBackTest;
 	Button btnBackATDD;
 	Button btnSaveAndMenu;
@@ -283,7 +291,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		btnSaveAndMenu.setId("button");
 		
 		
-		btnTimer = new Button();
+		btnTimer = new Label();
 		btnTimer.setText("*Timer*");
 		btnTimer.setTranslateX(480);
 		btnTimer.setTranslateY(535);
@@ -320,6 +328,9 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		if(event.getSource()==btnQuitCode){
 			System.exit(0);
 		}
+		if(event.getSource() == btnSaveAndATDD || event.getSource() == btnSaveAndMenu || event.getSource() == btnSaveAndTest) {
+			this.saveCode();
+		}
 		if(event.getSource()==btnMenu || event.getSource()==btnSaveAndMenu){
 			txtCode.setText("");
 			txtTest.setText("");
@@ -348,9 +359,17 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 			if(ctrl.compileTest(txtTest.getText(),txtCode.getText(),txtATDD.getText(),ctrl.getCurExc().getAccTestName(),txtCompileMsg,false)) {
 				breite = 1000;
 				hoehe = 600;
+				if(ctrl.getCurExc().isBabysteps())
+				ctrl.stopTimer();
+				btnTimer.textProperty().unbind();
+				btnTimer.setText("");
 				scRefactoring = new Scene(editorRefactoring());
 				scRefactoring.getStylesheets().add("stylesheetSCX.css");
 				fenster.setScene(scRefactoring);
+			}
+			else {
+				txtTest.setEditable(false);
+				txtCode.setEditable(true);
 			}
 
 		}
@@ -362,7 +381,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 			if(status == 1){
 				breite = 1000;
 				hoehe = 600;
-
+				txtTest.setEditable(true);
 				scTest = new Scene(editorTest());
 				scTest.getStylesheets().add("stylesheetSCX.css");
 				fenster.setScene(scTest);
@@ -390,11 +409,20 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 					code = txtCode.getText();
 				}
 				if(ctrl.compileTest(txtTest.getText(),code,txtATDD.getText(),ctrl.getCurExc().getAccTestName(),txtCompileMsg,true)) {
+					if(ctrl.getCurExc().isBabysteps())
+					ctrl.stopTimer();
+					btnTimer.textProperty().unbind();
+					btnTimer.setText("");
 					breite = 1000;
 					hoehe = 600;
 					scCode = new Scene(editorCode());
 					scCode.getStylesheets().add("stylesheetSCX.css");
 					fenster.setScene(scCode);
+				}
+				else {
+
+					txtTest.setEditable(true);
+					txtCode.setEditable(false);
 				}
 
 			}
@@ -523,6 +551,9 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		status = 1; //spaeter dann Compile-Code
 		btnNextCode.setOnAction(this);
 		btnBackATDD.setOnAction(this);
+		if(ctrl.getCurExc().isBabysteps())
+		ctrl.startTimer(btnTimer,txtTest,txtCode);
+
 		return root;
 	}
 
@@ -557,6 +588,70 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		System.out.println("code writing stage");
 		btnNextRefactoring.setOnAction(this);
 		btnBackTest.setOnAction(this);
+		if(ctrl.getCurExc().isBabysteps())
+		ctrl.startTimer(btnTimer,txtTest,txtCode);
 		return root;
+	}
+
+
+	private void saveCode() {
+		String acc_code = txtATDD.getText();
+		String test_code = txtTest.getText();
+		String code_code = txtCode.getText();
+		writeToFile(ctrl.getCurExc().getAccTestName(),acc_code);
+		writeToFile(ctrl.getCurExc().getTestClassNames().get(0),test_code);
+		writeToFile(ctrl.getCurExc().getClassNames().get(0),code_code);
+		XMLReader xmlr = new XMLReader("src/main/resources/TestFile.xml");
+		int index = 0;
+		List<Excercise> excercises = xmlr.getExcercises();
+		for(int i=0;i < excercises.size(); i++) {
+			if(excercises.get(i).getDescription().equals(ctrl.getCurExc().getDescription())) {
+				// we got our object
+				index = i;
+			}
+		}
+		excercises.get(index).setAccTestCode(acc_code);
+		excercises.get(index).getTestClassContent().add(0,test_code);
+		excercises.get(index).getClassContent().add(0,code_code);
+		XMLWriter xmlw = new XMLWriter();
+		xmlw.write("src/main/resources/TestFile.xml",excercises);
+	}
+
+	private void writeToFile(String filename,String text) {
+		try (Writer writer = new BufferedWriter(new OutputStreamWriter(
+				new FileOutputStream(filename + ".java"), "utf-8"))) {
+			writer.write(text);
+		}
+		catch(IOException e) {
+			Alert alert = new Alert(Alert.AlertType.ERROR);
+			alert.setTitle("Error writing File");
+			alert.setContentText("Could not write file: " + filename + ".java");
+
+			Exception ex = new FileNotFoundException("Could not write file: " + filename + ".java");
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			ex.printStackTrace(pw);
+			String exceptionText = sw.toString();
+
+			Label label = new Label("The exception stacktrace was:");
+
+			TextArea textArea = new TextArea(exceptionText);
+			textArea.setEditable(false);
+			textArea.setWrapText(true);
+
+			textArea.setMaxWidth(Double.MAX_VALUE);
+			textArea.setMaxHeight(Double.MAX_VALUE);
+			GridPane.setVgrow(textArea, Priority.ALWAYS);
+			GridPane.setHgrow(textArea, Priority.ALWAYS);
+
+			GridPane expContent = new GridPane();
+			expContent.setMaxWidth(Double.MAX_VALUE);
+			expContent.add(label, 0, 0);
+			expContent.add(textArea, 0, 1);
+
+			alert.getDialogPane().setExpandableContent(expContent);
+
+			alert.showAndWait();
+		}
 	}
 }
