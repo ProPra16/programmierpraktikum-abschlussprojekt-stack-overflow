@@ -124,6 +124,42 @@ public class Controller {
 
     }
 
+    public boolean[] compileOnlyRefactoring(String test, String code,String accCode,String accName,TextArea txtError) {
+        compH = new CompileHandler(curExc.getClassNames().get(0),code,curExc.getTestClassNames().get(0),test,accName,accCode);
+        String[] tmp = compH.executeCompiler();
+        txtError.setEditable(true);
+        txtError.appendText(tmp[0]);
+        txtError.appendText(tmp[1]);
+        txtError.appendText(tmp[2]);
+        txtError.appendText(tmp[3]);
+        txtError.setEditable(false);
+        boolean[] ret = {compH.testStatus(),compH.acceptanceStatus()};
+        return ret;
+    }
+    public boolean compileOnlyTestAndCode(String test, String code,TextArea txtError,boolean ShouldOnlyCompile) {
+        compH = new CompileHandler(curExc.getClassNames().get(0),code,curExc.getTestClassNames().get(0),test);
+        String[] tmp = compH.executeCompiler();
+        txtError.setEditable(true);
+        txtError.appendText(tmp[0]);
+        txtError.appendText(tmp[1]);
+
+        if(ShouldOnlyCompile == false) {
+            txtError.appendText(tmp[2]);
+        }
+        txtError.setEditable(false);
+        if(ShouldOnlyCompile) {
+            if(tmp[1].equals(null) || tmp[1].equals("") || tmp[1].isEmpty()) {
+                return true;
+            }
+            else  {
+                return false;
+            }
+        }
+        else {
+            System.out.println(compH.testStatus());
+            return compH.testStatus();
+        }
+    }
     public void startTimer(Label lblTimer,TextArea txtTest,TextArea txtCode) {
 
         long seconds = curExc.getBabystepstime();
@@ -135,9 +171,8 @@ public class Controller {
                 timer.startCountdownTimer();
                 timer.calculateElapsedTime();
                 long timertime = TimeUnit.MINUTES.toMillis(timer.getDisplayableMinutes()) + TimeUnit.SECONDS.toMillis(timer.getDisplayableSeconds());
-                System.out.println(timertime  + "|" + mytime);
                 while(timertime < mytime) {
-                    updateMessage(timer.getDisplayableMinutes() + ":" + timer.getDisplayableSeconds());
+                    updateMessage("Remaining Time: " + timer.getDisplayableMinutes() + ":" + timer.getDisplayableSeconds());
                     timertime = TimeUnit.MINUTES.toMillis(timer.getDisplayableMinutes()) + TimeUnit.SECONDS.toMillis(timer.getDisplayableSeconds());
                     timer.calculateElapsedTime();
                 }
@@ -147,10 +182,9 @@ public class Controller {
         lblTimer.textProperty().bind(task.messageProperty());
         task.setOnSucceeded(e -> {
             lblTimer.textProperty().unbind();
-            // this message will be seen.
             txtCode.setEditable(false);
             txtTest.setEditable(false);
-            lblTimer.setText("Now click 'Weiter'");
+            lblTimer.setText("Now click next...");
         });
         thread = new Thread(task);
         thread.setDaemon(true);

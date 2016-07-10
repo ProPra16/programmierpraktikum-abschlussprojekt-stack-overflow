@@ -12,7 +12,7 @@
             public void testAdd() {
             assertEquals(5,Methode2.add(4,1));
             }
-            }</acc><config><babysteps time="2:30" value="false"/></config></exercise><exercise name="aufgabe 2"><description>nr 2</description><classes><class name="Methode2">public class Methode2 {
+            }</acc><config><babysteps time="0:0" value="false"/></config></exercise><exercise name="aufgabe 2"><description>nr 2</description><classes><class name="Methode2">public class Methode2 {
                     public static int add(int a, int b) {
                         return a+b;
                     }
@@ -27,8 +27,9 @@
                 public void testSub() {
                     assertEquals(3,Methode2.sub(4,1));
                 }
+		@Test
                 public void testSub2() {
-                    assertEquals(10,Methode2.sub(9,-1));
+                    assertEquals(10,Methode2.sub(11,1));
                 }
                 }
 </test></tests><acc name="AccTest">import static org.junit.Assert.*;
@@ -36,6 +37,6 @@
             public class AccTest {
                 @Test
                 public void testAdd() {
-                    assertEquals(5,Methode2.add(4,1));
+                    assertEquals(6,Methode2.add(4,2));
                 }
             }</acc><config><babysteps time="2:30" value="true"/></config></exercise></excercises>

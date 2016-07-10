@@ -87,7 +87,6 @@ public class CompileHandler {
 	private String handleTests(JavaStringCompiler myCompileObject) {
 		String testResults = "";
 		TestResult happyEndChecker = myCompileObject.getTestResult();
-		
 		if(happyEndChecker.getNumberOfFailedTests() == 0) {
 			testResults += "All tests succeeded!\n";
 			testSuccess = true;

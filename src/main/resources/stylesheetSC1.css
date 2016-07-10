@@ -27,3 +27,8 @@
 	-fx-font-size: 20px;
 	-fx-font-weight: bold;
 }
+
+#lblTimer {
+    -fx-font-size:20px;
+    -fx-text-fill:red;
+}

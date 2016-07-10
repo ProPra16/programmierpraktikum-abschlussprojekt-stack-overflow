@@ -302,8 +302,9 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		
 		btnTimer = new Label();
 		btnTimer.setText("*Timer*");
-		btnTimer.setTranslateX(480);
-		btnTimer.setTranslateY(535);
+		btnTimer.setTranslateX(420);
+		btnTimer.setTranslateY(545);
+		btnTimer.setId("lblTimer");
 
 
 		
@@ -365,7 +366,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 
 				}
 		if(event.getSource()==btnNextRefactoring){
-			if(ctrl.compileTest(txtTest.getText(),txtCode.getText(),txtATDD.getText(),ctrl.getCurExc().getAccTestName(),txtCompileMsg,false)) {
+			if(ctrl.compileOnlyTestAndCode(txtTest.getText(),txtCode.getText(),txtCompileMsg,false)) {
 				btnCheckTest.setId("button_green");
 				btnCheckCODE.setId("button_green");
 				breite = 1000;
@@ -386,8 +387,15 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		}
 		
 		if(event.getSource() == btnCompilen) {
-			int check = 1;//hier soll sowohl ATDD gecheckt werden, als auch der Refactoring Code!
-			int refactoringCheck = 1;//hier soll nur der Refactoring Code gecheckt werden!
+			int check=0 ,refactoringCheck = 0;
+			boolean[] tmp = ctrl.compileOnlyRefactoring(txtTest.getText(),txtCode.getText(),txtATDD.getText(),ctrl.getCurExc().getAccTestName(),txtCompileMsg);
+			if(tmp[0]) {
+				refactoringCheck = 1;
+			}
+			if(tmp[1]) {
+				check = 1;
+			}
+
 			if (check == 1){
 				ATDDCheck = true;
 				CompileCheck = true;
@@ -491,7 +499,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				else {
 					code = txtCode.getText();
 				}
-				if(ctrl.compileTest(txtTest.getText(),code,txtATDD.getText(),ctrl.getCurExc().getAccTestName(),txtCompileMsg,true)) {
+				if(ctrl.compileOnlyTestAndCode(txtTest.getText(),code,txtCompileMsg,true)) {
 					if(ctrl.getCurExc().isBabysteps())
 					ctrl.stopTimer();
 					btnTimer.textProperty().unbind();
