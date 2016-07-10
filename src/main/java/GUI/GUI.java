@@ -52,6 +52,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	Button btnCheckCODE;
 	Button btnCheckTest;
 	Button btnCheckRefactoring;
+	Button btnCompilen;
 	Label lbTitel;
 	Label lbCredits1;	
 	Label lbRefactoring;
@@ -69,6 +70,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	TextArea txtCode;
 	TextArea txtATDD;
 	TextArea txtCompileMsg;
+	TextArea txtInfo;
 	int breite;
 	int hoehe;
 	int status; //status ist 1, wenn der Compile-Vorgang funktioniert hat
@@ -76,7 +78,8 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	TableView table;
 
 	boolean firstTest,firstCode;
-
+	boolean ATDDCheck = false;
+	boolean CompileCheck = false;
 
 	
 	@Override
@@ -94,8 +97,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		txtCode = new TextArea();
 		txtATDD = new TextArea();
 		txtCompileMsg = new TextArea();
-		//Muss noch angepasst werden!
-
+		txtInfo = new TextArea();
 
 		lbTitel = new Label("TDD-Trainer");
 		lbTitel.setTranslateX(5);
@@ -199,6 +201,13 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		btnCheckRefactoring.setTranslateY(20);
 		btnCheckRefactoring.setOnAction(this);
 		btnCheckRefactoring.setId("button_red");
+		
+		btnCompilen = new Button();
+		btnCompilen.setText("Compile");
+		btnCompilen.setTranslateX(468);
+		btnCompilen.setTranslateY(370);
+		btnCompilen.setId("button");
+		
 		
 		btnNormal = new Button();
 		btnNormal.setText("Normal-Codes");
@@ -357,6 +366,8 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				}
 		if(event.getSource()==btnNextRefactoring){
 			if(ctrl.compileTest(txtTest.getText(),txtCode.getText(),txtATDD.getText(),ctrl.getCurExc().getAccTestName(),txtCompileMsg,false)) {
+				btnCheckTest.setId("button_green");
+				btnCheckCODE.setId("button_green");
 				breite = 1000;
 				hoehe = 600;
 				if(ctrl.getCurExc().isBabysteps())
@@ -373,9 +384,81 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 			}
 
 		}
+		
+		if(event.getSource() == btnCompilen) {
+			int check = 1;//hier soll sowohl ATDD gecheckt werden, als auch der Refactoring Code!
+			int refactoringCheck = 1;//hier soll nur der Refactoring Code gecheckt werden!
+			if (check == 1){
+				ATDDCheck = true;
+				CompileCheck = true;
+				txtInfo.setText("Perfect!");
+				btnCheckATDD.setId("button_green");
+				btnCheckRefactoring.setId("button_green");
+				txtTest.setEditable(false);
+				txtCode.setEditable(false);
+			}
+			else if(refactoringCheck == 1){
+				CompileCheck = true;
+				txtInfo.setText("ATDD failed!");
+				txtTest.setEditable(false);
+				txtCode.setEditable(false);
+			}
+			
+			else{
+				txtInfo.setText("Compile failed!");
+				ATDDCheck = false;
+				CompileCheck = false;
+			}
+			
+			if(CompileCheck == false){
+				btnSaveAndTest.setOnAction(new EventHandler<ActionEvent>() {
+			    @Override public void handle(ActionEvent e) {
+			    	txtInfo.setText("Please use Compile first!");
+			    }
+			});
+				btnSaveAndMenu.setOnAction(new EventHandler<ActionEvent>() {
+			    @Override public void handle(ActionEvent e) {
+			        txtInfo.setText("Please use Compile first!");
+			    }
+			});
+				btnSaveAndATDD.setOnAction(new EventHandler<ActionEvent>() {
+			    @Override public void handle(ActionEvent e) {
+			    	txtInfo.setText("Please use Compile first!");
+			    }
+			});
+			}
+			else{
+				btnSaveAndTest.setOnAction(this);
+				if(ATDDCheck == true){
+					btnSaveAndMenu.setOnAction(this);
+					btnSaveAndATDD.setOnAction(this);
+					}
+				else{
+					btnSaveAndMenu.setOnAction(new EventHandler<ActionEvent>() {
+					    @Override public void handle(ActionEvent e) {
+					        txtInfo.setText("ATDD Test is still RED, please use Save&Test!");
+					    }
+					});
+						btnSaveAndATDD.setOnAction(new EventHandler<ActionEvent>() {
+					    @Override public void handle(ActionEvent e) {
+					    	txtInfo.setText("ATDD Test is still RED, please use Save&Test!");
+					    }
+					});
+				}
+				}
+			
+		}
+		
 		if(event.getSource() == btnSaveAndTest || event.getSource() == btnSaveAndATDD) {
 			firstCode = false;
 			firstTest = false;
+			CompileCheck = false;
+			ATDDCheck = false;
+			txtInfo.setText("");
+			btnCheckTest.setId("button_red");
+			btnCheckCODE.setId("button_red");
+			btnCheckATDD.setId("button_red");
+			btnCheckRefactoring.setId("button_red");
 		}
 		if(event.getSource()==btnNextTest || event.getSource()==btnBackTest || event.getSource()==btnSaveAndTest){
 			if(status == 1){
@@ -396,7 +479,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				alert.showAndWait();
 			}
 		}
-		if(event.getSource()==btnNextCode){
+		if(event.getSource()==btnNextCode){			
 			if(status == 1){
 				String code = "";
 				if(txtCode.getText().equals("") || txtCode.getText().equals(null) || txtCode.getText().isEmpty()) {
@@ -441,7 +524,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	private Parent editorRefactoring() {
 		Pane root = new Pane();
         root.setPrefSize(breite, hoehe);
-		root.getChildren().addAll(lbRefactoringb,lbCredits2,lbList,lbTest,lbCode,lbATDD,txtCode,txtTest,txtCompileMsg,btnQuitCode,btnCheckList,btnCheckTest,btnCheckCODE,btnCheckATDD,btnCheckRefactoring,btnSaveAndATDD,btnSaveAndTest,btnSaveAndMenu,btnMenu);
+		root.getChildren().addAll(lbRefactoringb,lbCredits2,lbList,lbTest,lbCode,lbATDD,txtCode,txtInfo,txtTest,txtCompileMsg,btnCompilen,btnQuitCode,btnCheckList,btnCheckTest,btnCheckCODE,btnCheckATDD,btnCheckRefactoring,btnSaveAndATDD,btnSaveAndTest,btnSaveAndMenu,btnMenu);
 		txtTest.setPrefWidth(breite*0.45);
 		txtTest.setPrefHeight(300);
 		txtTest.setLayoutX(20);
@@ -457,12 +540,33 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		txtCompileMsg.setEditable(false);
 		txtTest.setEditable(true);
 		txtCode.setEditable(true);
+		
+		txtInfo.setLayoutX(100);
+		txtInfo.setLayoutY(535);
+		txtInfo.setPrefWidth(300);
+		txtInfo.setPrefHeight(30);
+		txtInfo.setEditable(false);
 
 		status = 1; //spaeter dann Compile-Code
 		System.out.println("Refactoring-Stage");
-		btnSaveAndATDD.setOnAction(this);
-		btnSaveAndMenu.setOnAction(this);
-		btnSaveAndTest.setOnAction(this);
+		btnCompilen.setOnAction(this);
+		if(CompileCheck == false){
+			btnSaveAndTest.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	txtInfo.setText("Please use Compile first!");
+		    }
+		});
+			btnSaveAndMenu.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		        txtInfo.setText("Please use Compile first!");
+		    }
+		});
+			btnSaveAndATDD.setOnAction(new EventHandler<ActionEvent>() {
+		    @Override public void handle(ActionEvent e) {
+		    	txtInfo.setText("Please use Compile first!");
+		    }
+		});
+		}
 		return root;
 	}
 
