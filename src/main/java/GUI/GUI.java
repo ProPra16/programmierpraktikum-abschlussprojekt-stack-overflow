@@ -41,7 +41,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	Button btnNextCode;
 	Button btnNextATDD;
 	Button btnNextRefactoring;
-	Label btnTimer;
+	Label lbTimer;
 	Button btnBackTest;
 	Button btnBackATDD;
 	Button btnSaveAndMenu;
@@ -300,11 +300,11 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		btnSaveAndMenu.setId("button");
 		
 		
-		btnTimer = new Label();
-		btnTimer.setText("*Timer*");
-		btnTimer.setTranslateX(420);
-		btnTimer.setTranslateY(545);
-		btnTimer.setId("lblTimer");
+		lbTimer = new Label();
+		lbTimer.setText("");
+		lbTimer.setTranslateX(420);
+		lbTimer.setTranslateY(545);
+		lbTimer.setId("lblTimer");
 
 
 		
@@ -366,20 +366,27 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 
 				}
 		if(event.getSource()==btnNextRefactoring){
+			
 			if(ctrl.compileOnlyTestAndCode(txtTest.getText(),txtCode.getText(),txtCompileMsg,false)) {
 				btnCheckTest.setId("button_green");
 				btnCheckCODE.setId("button_green");
 				breite = 1000;
 				hoehe = 600;
-				if(ctrl.getCurExc().isBabysteps())
-				ctrl.stopTimer();
-				btnTimer.textProperty().unbind();
-				btnTimer.setText("");
-				scRefactoring = new Scene(editorRefactoring());
-				scRefactoring.getStylesheets().add("stylesheetSCX.css");
-				fenster.setScene(scRefactoring);
-			}
+				if(true){ //hier muss der Test überprüft werden, nicht das compilen
+					btnCheckTest.setId("button_green");
+					if(ctrl.getCurExc().isBabysteps())
+						ctrl.stopTimer();
+						lbTimer.textProperty().unbind();
+						lbTimer.setText("");
+						scRefactoring = new Scene(editorRefactoring());
+						scRefactoring.getStylesheets().add("stylesheetSCX.css");
+						fenster.setScene(scRefactoring);
+					}	
+				else{
+					txtInfo.setText("Test is still RED!");}	
+				}
 			else {
+				txtInfo.setText("Compile Error!");
 				txtTest.setEditable(false);
 				txtCode.setEditable(true);
 			}
@@ -472,6 +479,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 			if(status == 1){
 				breite = 1000;
 				hoehe = 600;
+				txtInfo.setText("");
 				txtTest.setEditable(true);
 				scTest = new Scene(editorTest());
 				scTest.getStylesheets().add("stylesheetSCX.css");
@@ -487,7 +495,8 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				alert.showAndWait();
 			}
 		}
-		if(event.getSource()==btnNextCode){			
+		if(event.getSource()==btnNextCode){	
+	
 			if(status == 1){
 				String code = "";
 				if(txtCode.getText().equals("") || txtCode.getText().equals(null) || txtCode.getText().isEmpty()) {
@@ -502,8 +511,8 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				if(ctrl.compileOnlyTestAndCode(txtTest.getText(),code,txtCompileMsg,true)) {
 					if(ctrl.getCurExc().isBabysteps())
 					ctrl.stopTimer();
-					btnTimer.textProperty().unbind();
-					btnTimer.setText("");
+					lbTimer.textProperty().unbind();
+					lbTimer.setText("");
 					breite = 1000;
 					hoehe = 600;
 					scCode = new Scene(editorCode());
@@ -511,7 +520,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 					fenster.setScene(scCode);
 				}
 				else {
-
+					txtInfo.setText("Compile Error!");
 					txtTest.setEditable(true);
 					txtCode.setEditable(false);
 				}
@@ -635,7 +644,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	private Parent editorTest() {
 		Pane root = new Pane();
         root.setPrefSize(breite, hoehe);
-		root.getChildren().addAll(lbRefactoring,lbCredits2,lbList,lbTestb,lbCode,lbATDD,txtTest,txtCode,txtCompileMsg,btnQuitCode,btnCheckList,btnCheckTest,btnCheckCODE,btnCheckATDD,btnCheckRefactoring,btnMenu,btnNextCode,btnBackATDD,btnTimer);
+		root.getChildren().addAll(lbRefactoring,lbCredits2,lbList,lbTestb,lbCode,lbATDD,txtTest,txtInfo,txtCode,txtCompileMsg,btnQuitCode,btnCheckList,btnCheckTest,btnCheckCODE,btnCheckATDD,btnCheckRefactoring,btnMenu,btnNextCode,btnBackATDD,lbTimer);
 		txtTest.setPrefWidth(breite*0.45);
 		txtTest.setPrefHeight(300);
 		txtTest.setLayoutX(20);
@@ -658,13 +667,20 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		txtCompileMsg.setEditable(false);
 		txtCode.setEditable(false);
 		txtTest.setEditable(true);
+		
+		
+		txtInfo.setLayoutX(100);
+		txtInfo.setLayoutY(535);
+		txtInfo.setPrefWidth(300);
+		txtInfo.setPrefHeight(30);
+		txtInfo.setEditable(false);
 
 		System.out.println("test writing stage");
 		status = 1; //spaeter dann Compile-Code
 		btnNextCode.setOnAction(this);
 		btnBackATDD.setOnAction(this);
 		if(ctrl.getCurExc().isBabysteps())
-		ctrl.startTimer(btnTimer,txtTest,txtCode);
+		ctrl.startTimer(lbTimer,txtTest,txtCode);
 
 		return root;
 	}
@@ -672,7 +688,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	private Parent editorCode() {
 		Pane root = new Pane();
         root.setPrefSize(breite, hoehe);
-		root.getChildren().addAll(lbRefactoring,lbCredits2,lbList,lbTest,lbCodeb,lbATDD,txtCode,txtTest,txtCompileMsg,btnQuitCode,btnCheckList,btnCheckTest,btnCheckCODE,btnCheckATDD,btnCheckRefactoring,btnMenu,btnNextRefactoring,btnBackTest,btnTimer);
+		root.getChildren().addAll(lbRefactoring,lbCredits2,lbList,lbTest,lbCodeb,lbATDD,txtCode,txtTest,txtInfo,txtCompileMsg,btnQuitCode,btnCheckList,btnCheckTest,btnCheckCODE,btnCheckATDD,btnCheckRefactoring,btnMenu,btnNextRefactoring,btnBackTest,lbTimer);
 		txtTest.setPrefWidth(breite*0.45);
 		txtTest.setPrefHeight(300);
 		txtTest.setLayoutX(20);
@@ -681,6 +697,13 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		txtCode.setPrefHeight(300);
 		txtCode.setLayoutX(breite*0.55);
 		txtCode.setLayoutY(hoehe*0.19);
+		
+		txtInfo.setLayoutX(100);
+		txtInfo.setLayoutY(535);
+		txtInfo.setPrefWidth(300);
+		txtInfo.setPrefHeight(30);
+		txtInfo.setEditable(false);
+		
 		String code = "";
 		for(int i=0;i<ctrl.getCurExc().getClassContent().size();i++) {
 			code += ctrl.getCurExc().getClassContent().get(i) + "\n";
@@ -701,7 +724,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		btnNextRefactoring.setOnAction(this);
 		btnBackTest.setOnAction(this);
 		if(ctrl.getCurExc().isBabysteps())
-		ctrl.startTimer(btnTimer,txtTest,txtCode);
+		ctrl.startTimer(lbTimer,txtTest,txtCode);
 		return root;
 	}
 
