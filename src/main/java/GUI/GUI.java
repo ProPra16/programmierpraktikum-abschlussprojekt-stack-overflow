@@ -367,12 +367,12 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				}
 		if(event.getSource()==btnNextRefactoring){
 			
-			if(ctrl.compileOnlyTestAndCode(txtTest.getText(),txtCode.getText(),txtCompileMsg,false)) {
+			if(ctrl.compileOnlyTestAndCode(txtTest.getText(),txtCode.getText(),txtCompileMsg,true)) {
 				btnCheckTest.setId("button_green");
 				btnCheckCODE.setId("button_green");
 				breite = 1000;
 				hoehe = 600;
-				if(true){ //hier muss der Test Ã¼berprÃ¼ft werden, nicht das compilen
+				if(ctrl.compileOnlyTestAndCode(txtTest.getText(),txtCode.getText(),txtCompileMsg,false)){ //hier muss der Test überprüft werden, nicht das compilen
 					btnCheckTest.setId("button_green");
 					if(ctrl.getCurExc().isBabysteps())
 						ctrl.stopTimer();
