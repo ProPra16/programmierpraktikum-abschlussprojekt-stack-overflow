@@ -81,7 +81,6 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	boolean ATDDCheck = false;
 	boolean CompileCheck = false;
 
-	
 	@Override
 	public void start(Stage arg0) throws Exception {
 		fenster = arg0;
@@ -366,7 +365,11 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 
 				}
 		if(event.getSource()==btnNextRefactoring){
-			
+			if(txtCode.getText().isEmpty() == true){
+				txtInfo.setText("Code is empty!");
+			}
+			else{
+				txtInfo.setText("");
 			if(ctrl.compileOnlyTestAndCode(txtTest.getText(),txtCode.getText(),txtCompileMsg,true)) {
 				btnCheckTest.setId("button_green");
 				btnCheckCODE.setId("button_green");
@@ -390,7 +393,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				txtTest.setEditable(false);
 				txtCode.setEditable(true);
 			}
-
+			}
 		}
 		
 		if(event.getSource() == btnCompilen) {
@@ -475,7 +478,21 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 			btnCheckATDD.setId("button_red");
 			btnCheckRefactoring.setId("button_red");
 		}
+		
+		if (event.getSource()==btnBackTest){String code = "";
+		for(int i=0;i<ctrl.getCurExc().getClassContent().size();i++) {
+			code += ctrl.getCurExc().getClassContent().get(i) + "\n";
+		}
+		if(firstCode) {
+			txtCode.setText(code);
+		}}
+		
 		if(event.getSource()==btnNextTest || event.getSource()==btnBackTest || event.getSource()==btnSaveAndTest){
+			if(txtATDD.getText().isEmpty() == true){
+				txtInfo.setText("ATDD is empty!");
+			}
+			else{
+				txtInfo.setText("");
 			if(status == 1){
 				breite = 1000;
 				hoehe = 600;
@@ -494,9 +511,14 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				alert.setContentText("This should not happen...");
 				alert.showAndWait();
 			}
+			}
 		}
 		if(event.getSource()==btnNextCode){	
-	
+			if(txtTest.getText().isEmpty() == true){
+				txtInfo.setText("Test is empty!");
+			}
+			else{
+				txtInfo.setText("");
 			if(status == 1){
 				String code = "";
 				if(txtCode.getText().equals("") || txtCode.getText().equals(null) || txtCode.getText().isEmpty()) {
@@ -516,6 +538,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 					breite = 1000;
 					hoehe = 600;
 					scCode = new Scene(editorCode());
+					txtCode.setEditable(true);
 					scCode.getStylesheets().add("stylesheetSCX.css");
 					fenster.setScene(scCode);
 				}
@@ -533,6 +556,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				alert.setHeaderText("How...?");
 				alert.setContentText("This should not happen...");
 				alert.showAndWait();
+			}
 			}
 		}
 	}
@@ -590,7 +614,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	private Parent editorATDD() {
 		Pane root = new Pane();
         root.setPrefSize(breite, hoehe);
-		root.getChildren().addAll(lbRefactoring,lbCredits2,lbList,lbTest,lbCode,btnCheckList,btnCheckTest,btnCheckCODE,btnCheckATDD,btnCheckRefactoring,lbATDDb,txtATDD,txtCompileMsg,btnQuitCode,btnMenu,btnNextTest);
+		root.getChildren().addAll(lbRefactoring,lbCredits2,lbList,lbTest,lbCode,txtInfo,btnCheckList,btnCheckTest,btnCheckCODE,btnCheckATDD,btnCheckRefactoring,lbATDDb,txtATDD,txtCompileMsg,btnQuitCode,btnMenu,btnNextTest);
 		txtATDD.setPrefWidth(breite*0.96);
 		txtATDD.setPrefHeight(300);
 		txtATDD.setLayoutX(20);
@@ -601,6 +625,13 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		txtCompileMsg.setPrefHeight(100);
 		txtCompileMsg.setEditable(false);
 		txtTest.setEditable(false);
+		
+		txtInfo.setLayoutX(100);
+		txtInfo.setLayoutY(535);
+		txtInfo.setPrefWidth(300);
+		txtInfo.setPrefHeight(30);
+		txtInfo.setEditable(false);
+		
 		if(firstCode) {
 			txtATDD.setText(ctrl.getCurExc().getAccTestCode());
 		}
