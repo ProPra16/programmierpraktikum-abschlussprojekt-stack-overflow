@@ -417,7 +417,9 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 			}
 			else if(refactoringCheck == 1){
 				CompileCheck = true;
-				txtInfo.setText("ATDD failed!");
+				ATDDCheck = false;
+				btnCheckRefactoring.setId("button_green");
+				txtInfo.setText("ATDD is still RED!");
 				txtTest.setEditable(false);
 				txtCode.setEditable(false);
 			}
