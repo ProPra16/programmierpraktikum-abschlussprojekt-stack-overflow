@@ -22,7 +22,8 @@ public class Controller {
     private final ObservableList<TableData> data = FXCollections.observableArrayList();
     private CompileHandler compH;
     private Excercise curExc;
-    private final String url = "src/main/resources/TestFile.xml";
+    private String url = "src/main/resources/Exercise.xml";
+    private String urlbabysteps = "src/main/resources/Exercise_BabyStep.xml";
     Thread thread;
     public void setupTable(TableView t, int i) {
 
@@ -38,7 +39,14 @@ public class Controller {
         t.setEditable(false);
 
         t.getColumns().addAll(nameCol,descCol);
-        XMLReader xmlr = new XMLReader(url);
+        XMLReader xmlr;
+        if(i == 1) { // no babystep
+            xmlr = new XMLReader(url);
+        }
+        else {
+            xmlr = new XMLReader(urlbabysteps);
+            url = urlbabysteps;
+        }
         List<Excercise> exc = xmlr.getExcercises();
         for(int j=0;j<exc.size();j++) {
             Excercise tmp = exc.get(j);

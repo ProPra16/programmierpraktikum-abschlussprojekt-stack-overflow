@@ -14,25 +14,6 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-/*
-USAGE EXAMPLE
-
-XMLReader xml = new XMLReader("TestFile.xml");
-Excercise test = xml.getExcercises().get(1); // get our second excercise object which should contain methode2
-
-Now you can use test.getName(); etc...
-
-iterate over classes/classnames
-
-for(int i=0; i < test.getClassNames().size()) {
-    test.getClassNames().get(i) // will be methode2
-    test.getClassContent().get(i) // will be public class uuuuuu.....
-}
-
- */
-
-
-
 public class XMLReader extends DefaultHandler {
 
     private List<Excercise> excercises = new ArrayList<Excercise>();

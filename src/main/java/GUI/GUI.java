@@ -80,6 +80,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 	boolean firstTest,firstCode;
 	boolean ATDDCheck = false;
 	boolean CompileCheck = false;
+	boolean babysteps;
 
 	@Override
 	public void start(Stage arg0) throws Exception {
@@ -325,6 +326,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 			fenster.setScene(scList);
 		}
 		if(event.getSource()==btnBabystep){
+			babysteps = true;
 			breite = 1000;
 			hoehe = 600;
 			scList = new Scene(create(2));
@@ -341,6 +343,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 			this.saveCode();
 		}
 		if(event.getSource()==btnMenu || event.getSource()==btnSaveAndMenu){
+			babysteps = false;
 			txtCode.setText("");
 			txtTest.setText("");
 			btnCheckList.setId("button_red");
@@ -365,34 +368,33 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 
 				}
 		if(event.getSource()==btnNextRefactoring){
-			if(txtCode.getText().isEmpty() == true){
+			if(txtCode.getText().isEmpty()){
 				txtInfo.setText("Code is empty!");
 			}
-			else{
+			else {
 				txtInfo.setText("");
-			if(ctrl.compileOnlyTestAndCode(txtTest.getText(),txtCode.getText(),txtCompileMsg,true)) {
-				btnCheckTest.setId("button_green");
-				btnCheckCODE.setId("button_green");
-				breite = 1000;
-				hoehe = 600;
-				if(ctrl.compileOnlyTestAndCode(txtTest.getText(),txtCode.getText(),txtCompileMsg,false)){ //hier muss der Test überprüft werden, nicht das compilen
+				if (ctrl.compileOnlyTestAndCode(txtTest.getText(), txtCode.getText(), txtCompileMsg, true)) {
 					btnCheckTest.setId("button_green");
-					if(ctrl.getCurExc().isBabysteps())
-						ctrl.stopTimer();
+					btnCheckCODE.setId("button_green");
+					breite = 1000;
+					hoehe = 600;
+					if (ctrl.compileOnlyTestAndCode(txtTest.getText(), txtCode.getText(), txtCompileMsg, false)) { //hier muss der Test überprüft werden, nicht das compilen
+						btnCheckTest.setId("button_green");
+						if (ctrl.getCurExc().isBabysteps())
+							ctrl.stopTimer();
 						lbTimer.textProperty().unbind();
 						lbTimer.setText("");
 						scRefactoring = new Scene(editorRefactoring());
 						scRefactoring.getStylesheets().add("stylesheetSCX.css");
 						fenster.setScene(scRefactoring);
-					}	
-				else{
-					txtInfo.setText("Test is still RED!");}	
+					} else {
+						txtInfo.setText("Test is still RED!");
+					}
+				} else {
+					txtInfo.setText("Compile Error!");
+					txtTest.setEditable(false);
+					txtCode.setEditable(true);
 				}
-			else {
-				txtInfo.setText("Compile Error!");
-				txtTest.setEditable(false);
-				txtCode.setEditable(true);
-			}
 			}
 		}
 		
@@ -430,7 +432,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 				CompileCheck = false;
 			}
 			
-			if(CompileCheck == false){
+			if(!CompileCheck){
 				btnSaveAndTest.setOnAction(new EventHandler<ActionEvent>() {
 			    @Override public void handle(ActionEvent e) {
 			    	txtInfo.setText("Please use Compile first!");
@@ -449,20 +451,22 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 			}
 			else{
 				btnSaveAndTest.setOnAction(this);
-				if(ATDDCheck == true){
+				if(ATDDCheck){
 					btnSaveAndMenu.setOnAction(this);
 					btnSaveAndATDD.setOnAction(this);
 					}
-				else{
+				else {
 					btnSaveAndMenu.setOnAction(new EventHandler<ActionEvent>() {
-					    @Override public void handle(ActionEvent e) {
-					        txtInfo.setText("ATDD Test is still RED, please use Save&Test!");
-					    }
+						@Override
+						public void handle(ActionEvent e) {
+							txtInfo.setText("ATDD Test is still RED, please use Save&Test!");
+						}
 					});
-						btnSaveAndATDD.setOnAction(new EventHandler<ActionEvent>() {
-					    @Override public void handle(ActionEvent e) {
-					    	txtInfo.setText("ATDD Test is still RED, please use Save&Test!");
-					    }
+					btnSaveAndATDD.setOnAction(new EventHandler<ActionEvent>() {
+						@Override
+						public void handle(ActionEvent e) {
+							txtInfo.setText("ATDD Test is still RED, please use Save&Test!");
+						}
 					});
 				}
 				}
@@ -490,7 +494,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		}}
 		
 		if(event.getSource()==btnNextTest || event.getSource()==btnBackTest || event.getSource()==btnSaveAndTest){
-			if(txtATDD.getText().isEmpty() == true){
+			if(txtATDD.getText().isEmpty()){
 				txtInfo.setText("ATDD is empty!");
 			}
 			else{
@@ -516,49 +520,45 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 			}
 		}
 		if(event.getSource()==btnNextCode){	
-			if(txtTest.getText().isEmpty() == true){
+			if(txtTest.getText().isEmpty()){
 				txtInfo.setText("Test is empty!");
 			}
-			else{
+			else {
 				txtInfo.setText("");
-			if(status == 1){
-				String code = "";
-				if(txtCode.getText().equals("") || txtCode.getText().equals(null) || txtCode.getText().isEmpty()) {
+				if (status == 1) {
+					String code = "";
+					if (txtCode.getText().equals("") || txtCode.getText().equals(null) || txtCode.getText().isEmpty()) {
 
-					for(int i=0;i<ctrl.getCurExc().getClassContent().size();i++) {
-						code += ctrl.getCurExc().getClassContent().get(i) + "\n";
+						for (int i = 0; i < ctrl.getCurExc().getClassContent().size(); i++) {
+							code += ctrl.getCurExc().getClassContent().get(i) + "\n";
+						}
+					} else {
+						code = txtCode.getText();
 					}
-				}
-				else {
-					code = txtCode.getText();
-				}
-				if(ctrl.compileOnlyTestAndCode(txtTest.getText(),code,txtCompileMsg,true)) {
-					if(ctrl.getCurExc().isBabysteps())
-					ctrl.stopTimer();
-					lbTimer.textProperty().unbind();
-					lbTimer.setText("");
-					breite = 1000;
-					hoehe = 600;
-					scCode = new Scene(editorCode());
-					txtCode.setEditable(true);
-					scCode.getStylesheets().add("stylesheetSCX.css");
-					fenster.setScene(scCode);
-				}
-				else {
-					txtInfo.setText("Compile Error!");
-					txtTest.setEditable(true);
-					txtCode.setEditable(false);
-				}
+					if (ctrl.compileOnlyTestAndCode(txtTest.getText(), code, txtCompileMsg, true)) {
+						if (ctrl.getCurExc().isBabysteps())
+							ctrl.stopTimer();
+						lbTimer.textProperty().unbind();
+						lbTimer.setText("");
+						breite = 1000;
+						hoehe = 600;
+						scCode = new Scene(editorCode());
+						txtCode.setEditable(true);
+						scCode.getStylesheets().add("stylesheetSCX.css");
+						fenster.setScene(scCode);
+					} else {
+						txtInfo.setText("Compile Error!");
+						txtTest.setEditable(true);
+						txtCode.setEditable(false);
+					}
 
-			}
-			else
-			{
-				Alert alert = new Alert(Alert.AlertType.ERROR);
-				alert.setTitle("");
-				alert.setHeaderText("How...?");
-				alert.setContentText("This should not happen...");
-				alert.showAndWait();
-			}
+				} else {
+					Alert alert = new Alert(Alert.AlertType.ERROR);
+					alert.setTitle("");
+					alert.setHeaderText("How...?");
+					alert.setContentText("This should not happen...");
+					alert.showAndWait();
+				}
 			}
 		}
 	}
@@ -593,7 +593,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		status = 1; //spaeter dann Compile-Code
 		System.out.println("Refactoring-Stage");
 		btnCompilen.setOnAction(this);
-		if(CompileCheck == false){
+		if(!CompileCheck){
 			btnSaveAndTest.setOnAction(new EventHandler<ActionEvent>() {
 		    @Override public void handle(ActionEvent e) {
 		    	txtInfo.setText("Please use Compile first!");
@@ -769,7 +769,14 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		writeToFile(ctrl.getCurExc().getAccTestName(),acc_code);
 		writeToFile(ctrl.getCurExc().getTestClassNames().get(0),test_code);
 		writeToFile(ctrl.getCurExc().getClassNames().get(0),code_code);
-		XMLReader xmlr = new XMLReader("src/main/resources/TestFile.xml");
+
+		XMLReader xmlr;
+		if(!babysteps) { // no babystep
+			xmlr = new XMLReader("src/main/resources/Exercise.xml");
+		}
+		else {
+			xmlr = new XMLReader("src/main/resources/Exercise_BabyStep.xml");
+		}
 		int index = 0;
 		List<Excercise> excercises = xmlr.getExcercises();
 		for(int i=0;i < excercises.size(); i++) {
@@ -782,7 +789,12 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		excercises.get(index).getTestClassContent().add(0,test_code);
 		excercises.get(index).getClassContent().add(0,code_code);
 		XMLWriter xmlw = new XMLWriter();
-		xmlw.write("src/main/resources/TestFile.xml",excercises);
+		if(!babysteps) { // no babystep
+			xmlw.write("src/main/resources/Exercise.xml", excercises);
+		}
+		else {
+			xmlw.write("src/main/resources/Exercise_BabyStep.xml", excercises);
+		}
 	}
 
 	private void writeToFile(String filename,String text) {

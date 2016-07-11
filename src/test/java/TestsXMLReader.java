@@ -15,27 +15,26 @@ public class TestsXMLReader {
 
     @Before
     public void initialize() {
-        xmlr = new XMLReader("src/main/resources/TestFile.xml");
+        xmlr = new XMLReader("src/main/resources/Exercise.xml");
     }
 
     @Test
     public void shouldhaveTwoExc() {
-        assertEquals(2,xmlr.getExcercises().size());
+        assertEquals(3,xmlr.getExcercises().size());
     }
 
     @Test
     public void shouldhaveExplicitClassName2() {
-        assertEquals("RomanNumberConverter",xmlr.getExcercises().get(0).getClassNames().get(0));
+        assertEquals("SMath",xmlr.getExcercises().get(0).getClassNames().get(0));
     }
 
     @Test
     public void getsrightBabystepsAttributes() {
-        assertEquals(true,xmlr.getExcercises().get(1).isBabysteps());
+        assertEquals(false,xmlr.getExcercises().get(1).isBabysteps());
     }
 
     @Test
     public void getRightBabystepsTime() {
-        long time = TimeUnit.MINUTES.toSeconds(2) +  30;
-        assertEquals(time,xmlr.getExcercises().get(1).getBabystepstime());
+        assertEquals(0,xmlr.getExcercises().get(1).getBabystepstime());
     }
 }

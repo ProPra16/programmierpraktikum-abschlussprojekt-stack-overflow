@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<excercises>
+    <exercise name="Simple Math">
+        <description>Just a calculator with no cli, Basic Operations...(not complete :) ) - Time: 2 Minutes</description>
+        <classes>
+            <class name="SMath">
+                public class SMath {
+
+                    public static int add(int a, int b) {
+                        return 0;
+                    }
+
+                    public static int sub(int a, int b) {
+                        return 0;
+                    }
+
+                }
+            </class>
+        </classes>
+        <tests>
+            <test name="SMathTest">
+                import static org.junit.Assert.*;
+                import org.junit.Test;
+
+                public class SMathTest {
+                    @Test
+                    public void testSub() {
+                        assertEquals(3,SMath.sub(4,1));
+                    }
+
+		            @Test
+                    public void testSub2() {
+                        assertEquals(10,SMath.sub(11,1));
+                    }
+
+                }
+            </test>
+        </tests>
+        <acc name="SMathAccTest">
+            import static org.junit.Assert.*;
+            import org.junit.Test;
+            public class SMathAccTest {
+                @Test
+                public void testMulti() {
+                    assertEquals(25.0,SMath.multi(5,5));
+                }
+            }
+        </acc>
+        <config>
+            <babysteps time="2:0" value="true"/>
+        </config>
+    </exercise>
+    <exercise name="Simple Name Calling">
+        <description>Basic example of Objects - Time 5 Minutes / 30 Seconds</description>
+        <classes>
+            <class name="SNC">
+                public class SNC {
+                    private String name;
+                    public SNC() {
+                        name = "";
+                    }
+
+                    public void setName(String s) {
+                        //todo set your name :)
+                    }
+
+                    public String getName() {
+                        // return just your name
+                        return "wrong";
+                    }
+
+                    public String getNameFormatted() {
+                        // e.g "Your Name is Babuschka"
+                        return "wrong";
+                    }
+
+                }
+            </class>
+        </classes>
+        <tests>
+            <test name="SNCTest">
+                import static org.junit.Assert.*;
+                import org.junit.Test;
+                public class SNCTest {
+
+                    @Test
+                    public void testsNameSettingAndReturn() {
+                        SNC x = new SNC();
+                        x.setName("DUDE1");
+                        assertEquals("DUDE1",x.getName());
+                    }
+
+                }
+            </test>
+        </tests>
+        <acc name="SNCAccTest">
+            import static org.junit.Assert.*;
+            import org.junit.Test;
+            public class SNCAccTest {
+
+                @Test
+                public void shouldGiveFormattedFeature() {
+                    SNC x = new SNC();
+                    x.setName("DUDE2");
+                    assertEquals("Your Name is DUDE2",x.getNameFormatted());
+                }
+
+            }
+        </acc>
+        <config>
+            <babysteps time="5:30" value="true"/>
+        </config>
+    </exercise>
+    <exercise name="Roman Number Converter">
+        <description>Converts normal Numbers to roman Numbers :O - Time 7 Minutes</description>
+        <classes>
+            <class name="RomanNumberConverter">
+                public class RomanNumberConverter {
+
+                    public String toRoman(int a) {
+                        return null;
+                    }
+
+                }
+            </class>
+        </classes>
+        <tests>
+            <test name="RomanNumberConverterTest">
+                import static org.junit.Assert.*;
+                import org.junit.Test;
+
+                public class RomanNumberConverterTest {
+
+                    @Test
+                    public void shouldReturnV() {
+                        RomanNumberConverter rnc = new RomanNumberConverter();
+                        assertEquals("V", rnc.toRoman(5));
+                    }
+
+                }
+            </test>
+        </tests>
+        <acc name="RomanNumberConverterAccTest">
+            import static org.junit.Assert.*;
+            import org.junit.Test;
+            public class RomanNumberConverterAccTest {
+                @Test
+                public void shouldAdd5and6andReturninRoman() {
+                    RomanNumberConverter rnc = new RomanNumberConverter();
+                    assertEquals("XI",rnc.add(6,5));
+                }
+            }
+        </acc>
+        <config>
+            <babysteps time="7:0" value="true"/>
+        </config>
+    </exercise>
+</excercises>
