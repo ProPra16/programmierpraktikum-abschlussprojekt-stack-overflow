@@ -15,7 +15,9 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Created by Shonen on 24.06.2016.
+ * Writer for the XML
+ *
+ * @author Marc
  */
 public class XMLWriter {
 

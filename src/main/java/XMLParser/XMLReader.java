@@ -14,6 +14,12 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+/**
+ * XML Reader for Reading the xml
+ *
+ * @author Marc
+ */
+
 public class XMLReader extends DefaultHandler {
 
     private List<Excercise> excercises = new ArrayList<Excercise>();

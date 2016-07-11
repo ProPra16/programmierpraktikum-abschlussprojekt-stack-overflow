@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 /**
  * Aufbau der AuswahlTabelle
  *
- * @author Mark
+ * @author Marc
  */
 public class TableData {
     private final SimpleStringProperty name;

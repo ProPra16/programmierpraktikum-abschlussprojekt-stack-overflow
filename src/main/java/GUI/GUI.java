@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * User Interface
  *
- * @author Benno, Mark
+ * @author Benno, Marc
  */
 public class GUI extends Application implements EventHandler<ActionEvent>{
 	Stage fenster;

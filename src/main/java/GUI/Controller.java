@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 /**
  * Controller für die GUI
  *
- * @author Mark
+ * @author Marc
  */
 public class Controller {
     private final ObservableList<TableData> data = FXCollections.observableArrayList();

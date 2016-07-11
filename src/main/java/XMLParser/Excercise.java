@@ -3,6 +3,12 @@ package XMLParser;
 
 import java.util.ArrayList;
 
+/**
+ * Excercise for Holding the well Excercises...
+ *
+ * @author Marc
+ */
+
 public class Excercise {
     private String name,description;
     private ArrayList<String> classNames;
