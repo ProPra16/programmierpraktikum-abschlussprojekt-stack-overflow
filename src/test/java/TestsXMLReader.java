@@ -19,8 +19,8 @@ public class TestsXMLReader {
     }
 
     @Test
-    public void shouldhaveTwoExc() {
-        assertEquals(3,xmlr.getExcercises().size());
+    public void shouldhaveFourExc() {
+        assertEquals(4,xmlr.getExcercises().size());
     }
 
     @Test

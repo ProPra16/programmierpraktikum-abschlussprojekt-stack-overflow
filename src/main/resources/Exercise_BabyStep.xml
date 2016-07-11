@@ -155,4 +155,60 @@
             <babysteps time="7:0" value="true"/>
         </config>
     </exercise>
+    <exercise name="Basic Template">
+        <description>Free like America? Go ahead :D Clean Template - Time 10 Minutes (change it to your desire)</description>
+        <classes>
+            <class name="BasicTemplate">
+                public class BasicTemplate {
+
+                /*
+                    add your own methods here
+                    if you want to change the class name - change it in the code and in the xml file 'exercise_babystep'
+                    e.g class name="YourNewName"
+                */
+
+                }
+            </class>
+        </classes>
+        <tests>
+            <test name="BasicTemplateTest">
+                import static org.junit.Assert.*;
+                import org.junit.Test;
+
+                /*
+                    Change the Babysteps time in 'exercise_babystep' in babysteps time="" remember to change it on the right exercise.
+                    add your own methods here
+                    if you want to change the test class name - change it in the code and in the xml file 'exercise_babystep'
+                    e.g test name="YourNewName"
+                */
+
+                public class BasicTemplateTest {
+
+                    @Test
+                    public void testSomething() {
+
+                    }
+
+                }
+            </test>
+        </tests>
+        <acc name="BasicTemplateAccTest">
+            import static org.junit.Assert.*;
+            import org.junit.Test;
+            /*
+                add your own methods here
+                if you want to change the acc test class name - change it in the code and in the xml file 'exercise_babystep'
+                e.g acc name="YourNewName"
+            */
+            public class BasicTemplateAccTest {
+                @Test
+                public void superImportantTestHERE() {
+
+                }
+            }
+        </acc>
+        <config>
+            <babysteps time="10:0" value="true"/>
+        </config>
+    </exercise>
 </excercises>

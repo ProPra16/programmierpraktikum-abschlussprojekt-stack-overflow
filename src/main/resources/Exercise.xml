@@ -155,4 +155,59 @@
             <babysteps time="0:0" value="false"/>
         </config>
     </exercise>
+    <exercise name="Basic Template">
+        <description>Free like America? Go ahead :D Clean Template</description>
+        <classes>
+            <class name="BasicTemplate">
+                public class BasicTemplate {
+
+                    /*
+                        add your own methods here
+                        if you want to change the class name - change it in the code and in the xml file 'exercise'
+                        e.g class name="YourNewName"
+                    */
+
+                }
+            </class>
+        </classes>
+        <tests>
+            <test name="BasicTemplateTest">
+                import static org.junit.Assert.*;
+                import org.junit.Test;
+
+                /*
+                    add your own methods here
+                    if you want to change the test class name - change it in the code and in the xml file 'exercise'
+                    e.g test name="YourNewName"
+                */
+
+                public class BasicTemplateTest {
+
+                    @Test
+                    public void testSomething() {
+
+                    }
+
+                }
+            </test>
+        </tests>
+        <acc name="BasicTemplateAccTest">
+            import static org.junit.Assert.*;
+            import org.junit.Test;
+            /*
+                add your own methods here
+                if you want to change the acc test class name - change it in the code and in the xml file 'exercise'
+                e.g acc name="YourNewName"
+            */
+            public class BasicTemplateAccTest {
+                @Test
+                public void superImportantTestHERE() {
+
+                }
+            }
+        </acc>
+        <config>
+            <babysteps time="0:0" value="false"/>
+        </config>
+    </exercise>
 </excercises>
