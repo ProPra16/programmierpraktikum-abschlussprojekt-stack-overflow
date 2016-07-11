@@ -23,7 +23,11 @@ import javafx.stage.Stage;
 import java.io.*;
 import java.util.List;
 
-
+/**
+ * User Interface
+ *
+ * @author Benno, Mark
+ */
 public class GUI extends Application implements EventHandler<ActionEvent>{
 	Stage fenster;
 	Scene scMenu;
@@ -378,7 +382,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 					btnCheckCODE.setId("button_green");
 					breite = 1000;
 					hoehe = 600;
-					if (ctrl.compileOnlyTestAndCode(txtTest.getText(), txtCode.getText(), txtCompileMsg, false)) { //hier muss der Test überprüft werden, nicht das compilen
+					if (ctrl.compileOnlyTestAndCode(txtTest.getText(), txtCode.getText(), txtCompileMsg, false)) { //hier muss der Test ï¿½berprï¿½ft werden, nicht das compilen
 						btnCheckTest.setId("button_green");
 						if (ctrl.getCurExc().isBabysteps())
 							ctrl.stopTimer();

@@ -1,5 +1,11 @@
 package CountdownTimer;
 
+/**
+ * Timer für Babysteps
+ *
+ * @author Leonard
+ */
+
 public class CountdownTimer {
 
 	long startTime = 0;

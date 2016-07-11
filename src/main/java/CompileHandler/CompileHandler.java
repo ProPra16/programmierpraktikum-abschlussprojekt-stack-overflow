@@ -1,5 +1,11 @@
 package CompileHandler;
 
+/**
+ * Klasse zum Compilen
+ *
+ * @author Kelly
+ */
+
 import java.util.Collection;
 import java.util.Iterator;
 

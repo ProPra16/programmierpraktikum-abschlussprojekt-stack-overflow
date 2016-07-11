@@ -1,3 +1,10 @@
+/**
+ * Stylesheet für den Rest des Programmes
+ *
+ * @author Benno
+ */
+
+
 .root {
     -fx-background-image: url("Background.png");
     -fx-background-repeat:no-repeat;

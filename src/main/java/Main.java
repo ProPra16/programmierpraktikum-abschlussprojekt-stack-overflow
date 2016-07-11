@@ -1,8 +1,11 @@
 import GUI.GUI;
 import javafx.application.Application;
 
+
 /**
- * Created by Shonen on 18.06.2016.
+ * Starterklasse
+ *
+ * @author Mark, Benno, Leonard, Kelly
  */
 public class Main {
     public static void main(String[] args)  {

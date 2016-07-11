@@ -3,7 +3,9 @@ package GUI;
 import javafx.beans.property.SimpleStringProperty;
 
 /**
- * Created by Shonen on 05.07.2016.
+ * Aufbau der AuswahlTabelle
+ *
+ * @author Mark
  */
 public class TableData {
     private final SimpleStringProperty name;
