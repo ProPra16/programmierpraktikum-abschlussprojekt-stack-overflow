@@ -12,6 +12,7 @@ import javafx.concurrent.Task;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.sql.Time;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -177,12 +178,14 @@ public class Controller {
             @Override public Void call() throws InterruptedException {
                 updateMessage("Starting timer....");
                 long mytime = TimeUnit.SECONDS.toMillis(seconds);
+                long mytimeminutes = TimeUnit.MILLISECONDS.toMinutes(mytime);
+                long mytimeseconds = TimeUnit.MILLISECONDS.toSeconds(mytime - TimeUnit.MINUTES.toMillis(mytimeminutes));
                 CountdownTimer timer = new CountdownTimer();
                 timer.startCountdownTimer();
                 timer.calculateElapsedTime();
                 long timertime = TimeUnit.MINUTES.toMillis(timer.getDisplayableMinutes()) + TimeUnit.SECONDS.toMillis(timer.getDisplayableSeconds());
                 while(timertime < mytime) {
-                    updateMessage("Remaining Time: " + timer.getDisplayableMinutes() + ":" + timer.getDisplayableSeconds());
+                    updateMessage("Remaining Time: " + timer.getDisplayableMinutes() + ":" + timer.getDisplayableSeconds() + "/" + mytimeminutes + ":" + mytimeseconds);
                     timertime = TimeUnit.MINUTES.toMillis(timer.getDisplayableMinutes()) + TimeUnit.SECONDS.toMillis(timer.getDisplayableSeconds());
                     timer.calculateElapsedTime();
                 }

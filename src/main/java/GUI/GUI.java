@@ -7,11 +7,7 @@ import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
@@ -290,18 +286,21 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 		btnSaveAndTest.setTranslateX(850);
 		btnSaveAndTest.setTranslateY(535);
 		btnSaveAndTest.setId("button");
+		btnSaveAndTest.setTooltip(new Tooltip("Saves your current Codes and goes to Step 3."));
 		
 		btnSaveAndATDD = new Button();
 		btnSaveAndATDD.setText("Save&ATDD");
 		btnSaveAndATDD.setTranslateX(700);
 		btnSaveAndATDD.setTranslateY(535);
 		btnSaveAndATDD.setId("button");
+		btnSaveAndATDD.setTooltip(new Tooltip("Saves your current Codes and goes to Step 2."));
 		
 		btnSaveAndMenu = new Button();
 		btnSaveAndMenu.setText("Save&Menu");
 		btnSaveAndMenu.setTranslateX(550);
 		btnSaveAndMenu.setTranslateY(535);
 		btnSaveAndMenu.setId("button");
+		btnSaveAndMenu.setTooltip(new Tooltip("Saves your current Codes and goes to the Menu"));
 		
 		
 		lbTimer = new Label();
@@ -530,7 +529,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 			else {
 				txtInfo.setText("");
 				if (status == 1) {
-					String code = "";
+					/*String code = "";
 					if (txtCode.getText().equals("") || txtCode.getText().equals(null) || txtCode.getText().isEmpty()) {
 
 						for (int i = 0; i < ctrl.getCurExc().getClassContent().size(); i++) {
@@ -539,7 +538,7 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 					} else {
 						code = txtCode.getText();
 					}
-					if (ctrl.compileOnlyTestAndCode(txtTest.getText(), code, txtCompileMsg, true)) {
+					if (ctrl.compileOnlyTestAndCode(txtTest.getText(), code, txtCompileMsg, true)) {*/
 						if (ctrl.getCurExc().isBabysteps())
 							ctrl.stopTimer();
 						lbTimer.textProperty().unbind();
@@ -550,11 +549,11 @@ public class GUI extends Application implements EventHandler<ActionEvent>{
 						txtCode.setEditable(true);
 						scCode.getStylesheets().add("stylesheetSCX.css");
 						fenster.setScene(scCode);
-					} else {
+					/*} else {
 						txtInfo.setText("Compile Error!");
 						txtTest.setEditable(true);
 						txtCode.setEditable(false);
-					}
+					}*/
 
 				} else {
 					Alert alert = new Alert(Alert.AlertType.ERROR);
