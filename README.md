@@ -1,6 +1,4 @@
-# Alle einmal in WICHTIG_ALLE_LESEN.txt reinschauen
-
-## programmierpraktikum-abschlussprojekt-stack-overflow
+# programmierpraktikum-abschlussprojekt-stack-overflow
 
 [![Build Status](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-stack-overflow.svg?branch=master)](https://travis-ci.org/ProPra16/programmierpraktikum-abschlussprojekt-stack-overflow)
 
